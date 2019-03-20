@@ -39,6 +39,27 @@ public class Mastermind extends Game {
         }
 
     }
+/**
+ * Afficher la combinaison
+ * @param c = une combinaison
+ * @param t = taille de combinaison
+ */
+public static void afficherCombinaison (final int[] c, int t) {
 
+    for (int nb = 0; nb < t; nb ++){
+        System.out.println(c [nb] + " ");
+    }
+    System.out.println();
+}
+
+    /**
+     * Valeur du bienPlace
+     */
+    final static int bienPlace = -1;
+
+    /**
+     * Valeur du malPlace
+     */
+    final static int malPlace = 0;
 
 }
