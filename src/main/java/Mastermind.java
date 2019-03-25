@@ -1,7 +1,7 @@
 import java.util.Random;
 import java.util.Scanner;
 
-public class Mastermind extends Game {
+public class Mastermind{
 
     /**
      * Taille de la combinaison
