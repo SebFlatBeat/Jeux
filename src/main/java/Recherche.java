@@ -8,13 +8,13 @@ public class Recherche  {
 
     public static void main(String[] args) {
         /**
-         * Saisi du nombre maximum d'essai
+         * Saisi du nombre maximum d'essai en limitant le choix et en ajoutant une exception
          */
         int nbMaxEssais;
         boolean sortir;
         do {
             nbMaxEssais = 0;
-            System.out.println("Combien d'essais sont autorisés ? "); //Pense a faire en sorte que seuls les chiffres soient acceptés
+            System.out.println("Combien d'essais sont autorisés ? Choississez un nombre entre 3 et 20 ");
             try {
                 sortir = true;
                 nbMaxEssais = entree.nextInt();
@@ -23,24 +23,46 @@ public class Recherche  {
                 entree.next();
                 sortir = false;
             }
+            if (nbMaxEssais<3 || nbMaxEssais>20 && sortir) {
+                System.out.println("Vous devez choisir un nombre entre 3 et 20 !!!!");
+                sortir = false;
+            }
         }while (!sortir);
 
 
         /**
          * Saisi du chiffre mystere et passage en format tableau
          */
-
-        System.out.println("Entrez votre combinaison secrète : "); //Faire une limitation de l'intervalle
-        String nbMystere = entree.next();
-        String[] tabMystere = nbMystere.split("(?<=.)");
-
-        /**
-         * Décompte de nbChiffre pour donner un indice au joueur
-         */
+        String nbMystere;
+        String[] tabMystere;
         int nbChiffre = 0;
-        for (int i = 0; i< tabMystere.length; i++){
-            nbChiffre = nbChiffre+1;
-        }
+        do {
+           System.out.println("Vous pouvez entrer une combinaision de 1 à 10 chiffres");
+           System.out.println("Entrez votre combinaison secrète : "); //Faire une limitation de l'intervalle
+               nbMystere = entree.next();
+               while (nbMystere.matches("^[a-zA-Z]*$")) {
+                   System.out.println("Vous ne devez mettre que des chiffres");
+                   System.out.println("Vous pouvez entrer une combinaision de 1 à 10 chiffres");
+                   nbMystere = entree.next();
+                   }
+           tabMystere = nbMystere.split("(?<=.)");
+            /**
+             * Décompte de nbChiffre pour donner un indice au joueur
+             */
+            for (int i = 0; i< tabMystere.length; i++){
+                nbChiffre = nbChiffre+1;
+            }
+            if (nbChiffre<1 || nbChiffre>10) {
+                System.out.println("Vous devez entrer une combinaision de 1 à 10 chiffres");
+                sortir = false;
+            }else{
+                sortir = true;
+            }
+       }while (!sortir);
+
+
+
+
         System.out.println(" ");
         System.out.println(" ");
         System.out.println(" ");
@@ -56,10 +78,17 @@ public class Recherche  {
 
         /**
          * Intialisation de la variable nbReponse
+         * Comparaison de la taille des deux tableaux tabReponse et tabMystere
          */
         System.out.println("Entrez votre proposition : "); //Pense à catcher une exception afin que nbReponse ne soit pas inferieur ou superieur nbChiffre
         String nbReponse = entree.next();
         String[] tabReponse = nbReponse.split("(?<=.)");
+        while (tabReponse.length != tabMystere.length){
+            System.out.println("Votre réponse ne fait pas la meme taille que la combinaison secrète !!");
+            System.out.println("Veuillez rentrer une reponse qui fait la taille de "+nbChiffre+" chiffre(s)");
+            nbReponse = entree.next();
+            tabReponse = nbReponse.split("(?<=.)");
+        }
 
         /**
          * Intialisation de la variable nombreEssais à 1 puisque le joueur démarre directement avec son premier essai
@@ -92,8 +121,15 @@ public class Recherche  {
             essaiRestant = essaiRestant-1;
             System.out.println("Vous avez proposé : " + nbReponse + " -> Voici des indices pour vous aider : " + Arrays.toString(compare));
             System.out.println("Il te reste "+essaiRestant+ " essais !");
-            nbReponse = entree.next(); //attention pense à faire vérifier que le nombre entrée est exactement la longueur que nbMystere
+            System.out.println("Entrez votre nouvelle proposition : ");
+            nbReponse = entree.next();
             tabReponse = nbReponse.split("(?<=.)");
+            while (tabReponse.length != tabMystere.length){
+                System.out.println("Votre réponse ne fait pas la meme taille que la combinaison secrète !!");
+                System.out.println("Veuillez rentrer une reponse qui fait la taille de "+nbChiffre);
+                nbReponse = entree.next();
+                tabReponse = nbReponse.split("(?<=.)");
+            }
             nombreEssais = nombreEssais + 1;
 
         }
