@@ -2,8 +2,19 @@
   <library name="lib">
     <CLASSES>
       <root url="file://$PROJECT_DIR$/lib" />
+      <root url="file://$PROJECT_DIR$/lib/commons-text-1.6" />
+      <root url="file://$PROJECT_DIR$/lib/commons-lang3-3.8.1" />
     </CLASSES>
-    <JAVADOC />
-    <SOURCES />
+    <JAVADOC>
+      <root url="file://$PROJECT_DIR$/lib/commons-lang3-3.8.1/apidocs" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/lib/commons-text-1.6" />
+      <root url="file://$PROJECT_DIR$/lib/commons-lang3-3.8.1" />
+    </SOURCES>
+    <jarDirectory url="file://$PROJECT_DIR$/lib/commons-lang3-3.8.1" recursive="false" />
+    <jarDirectory url="file://$PROJECT_DIR$/lib/commons-text-1.6" recursive="false" />
+    <jarDirectory url="file://$PROJECT_DIR$/lib/commons-lang3-3.8.1" recursive="false" type="SOURCES" />
+    <jarDirectory url="file://$PROJECT_DIR$/lib/commons-text-1.6" recursive="false" type="SOURCES" />
   </library>
 </component>
