@@ -17,6 +17,9 @@ public abstract class Game {
     protected String[] CpuTabMystere;
     protected String premiereProposition;
     protected String[] premierePropositionTab;
+    protected String indice;
+
+    protected String nextProposition;
     protected RandomStringGenerator generator = new RandomStringGenerator.Builder()
             .withinRange('0','9').build();
 
@@ -29,6 +32,22 @@ public abstract class Game {
     }
 
     protected String randomNumber = generator.generate(4,10);
+
+    public String getNextProposition() {
+        return nextProposition;
+    }
+
+    public void setNextProposition(String nextProposition) {
+        this.nextProposition = nextProposition;
+    }
+
+    public String getIndice() {
+        return indice;
+    }
+
+    public void setIndice(String indice) {
+        this.indice = indice;
+    }
 
     public String getPremiereProposition() {
         return premiereProposition;
@@ -121,12 +140,18 @@ public abstract class Game {
     }
 
     protected void challengerMode () {
+        /**
+         * parametrages
+         */
         setNbMaxEssais(10);
         setNbChiffreCpu(0);
         setNombreEssais(1);
         setEssaiRestant(getNbMaxEssais());
         setCpuNbMystere(randomNumber);
         setCpuTabMystere(CpuNbMystere.split("(?<=.)"));
+        /**
+         * Décompte de nbChiffre
+         */
         for (int i = 0; i < CpuTabMystere.length; i++) {
             nbChiffreCpu++;
         }
@@ -167,13 +192,15 @@ public abstract class Game {
 
 
     protected void duelMode () {
+        /**
+         * parametrages
+         */
         setNbMaxEssais(10);
         setNbChiffreCpu(0);
         setNbChiffreJoueur(0);
         /**
          * CPU
          */
-
         setCpuNbMystere(randomNumber);
         setCpuTabMystere(CpuNbMystere.split("(?<=.)"));
         for (int i = 0; i < CpuTabMystere.length; i++) {
