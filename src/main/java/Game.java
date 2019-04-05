@@ -18,7 +18,6 @@ public abstract class Game {
     protected String premiereProposition;
     protected String[] premierePropositionTab;
     protected String indice;
-
     protected String nextProposition;
     protected RandomStringGenerator generator = new RandomStringGenerator.Builder()
             .withinRange('0','9').build();

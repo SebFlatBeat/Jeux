@@ -89,14 +89,17 @@ public class Recherche  extends Game {
         System.out.println("Ta combinaison secrète est à " + getNbChiffreJoueur() + " chiffres.");
 
         System.out.println("L'ordinateur entre sa proposition. ");
+        /**
+         * Premiere proposition du CPU avec la valeur 5 et de la meme longueur que le nombre mystère du joueur
+         */
         for (int i = 0; i < getNbChiffreJoueur(); i++) {
             getPremierePropositionTab()[i] = String.valueOf(5);
             premiereProposition = getPremiereProposition() + getPremierePropositionTab()[i];
         }
         nbReponse = premiereProposition;
         String[] tabReponse = getPremiereProposition().split("(?<=.)");
-        while (!Arrays.equals(tabReponse, getJoueurTabMystere()) && getNombreEssais() < getNbMaxEssais()) {
 
+        while (!Arrays.equals(tabReponse, getJoueurTabMystere()) && getNombreEssais() < getNbMaxEssais()) {
             nextProposition = ("");
             String[] compare = new String[getJoueurTabMystere().length];
             indice = ("");
@@ -112,7 +115,9 @@ public class Recherche  extends Game {
                 } else if (valeur < 0) {
                     compare[i] = "-";
                 }
-
+                /**
+                 * Condition de prediction de proposition avec utilisation d'un random
+                 */
                 if (predictionProposition != tabReponse[i] && nombre >= 5 && valeur >0) {
                     proposition = new Random().nextInt(9 - nombre +1) + nombre;
                     predictionProposition = String.valueOf(proposition);
@@ -137,6 +142,9 @@ public class Recherche  extends Game {
             tabReponse = nextProposition.split("(?<=.)");
             nombreEssais = nombreEssais + 1;
         }
+        /**
+         .
+         */
         if (nombreEssais >= getNbMaxEssais() && !Arrays.equals(tabReponse, getJoueurTabMystere())) {
             indice = ("");
             String[] compare = new String[getJoueurTabMystere().length];
@@ -152,6 +160,9 @@ public class Recherche  extends Game {
                 } else if (valeur < 0) {
                     compare[i] = "-";
                 }
+                /**
+                 * Condition de prediction de proposition avec utilisation d'un random
+                 */
                 if (predictionProposition != tabReponse[i] && nombre >= 5 && valeur >0) {
                     proposition = new Random().nextInt(9 - nombre +1) + nombre;
                     predictionProposition = String.valueOf(proposition);
@@ -165,25 +176,25 @@ public class Recherche  extends Game {
                     proposition = new Random().nextInt(0 + nombre + 1) + nombre;
                     predictionProposition = String.valueOf(proposition);
                 }
-                    indice =  getIndice()+ compare[i] ;
-                    nextProposition = nextProposition + predictionProposition;
-                }
-                System.out.println("L'ordinateur a proposé : " + nbReponse + " -> Voici des indices pour l'aider : " + indice);
-                System.out.println("Mais il a dépassé le nombre d'essais autorisé qui était de " + getNbMaxEssais() + "  essai(s)");
-                System.out.println("Voici la solution : " + getJoueurNbMystere() + " Tu as gagné !!!!");
-            } else {
-                System.out.println("L'ordinateur a proposé : " + nbReponse);
-                System.out.println("Tu as perdu !!! L'ordinateur a reussi avec " + nombreEssais + " essai(s)");
+                indice =  getIndice()+ compare[i] ;
+                nextProposition = nextProposition + predictionProposition;
             }
+            System.out.println("L'ordinateur a proposé : " + nbReponse + " -> Voici des indices pour l'aider : " + indice);
+            System.out.println("Mais il a dépassé le nombre d'essais autorisé qui était de " + getNbMaxEssais() + "  essai(s)");
+            System.out.println("Voici la solution : " + getJoueurNbMystere() + " Tu as gagné !!!!");
+        } else {
+            System.out.println("L'ordinateur a proposé : " + nbReponse);
+            System.out.println("Tu as perdu !!! L'ordinateur a reussi avec " + nombreEssais + " essai(s)");
         }
+    }
 
 
 
 
-        @Override
-        protected void duelMode() {
-            super.duelMode();
-        }
+    @Override
+    protected void duelMode() {
+        super.duelMode();
+    }
 }
 
 
