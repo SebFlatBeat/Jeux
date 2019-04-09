@@ -11,6 +11,8 @@ public abstract class Game {
     protected int nombreEssais;
     protected int essaiRestant;
     protected boolean sortir;
+    protected String nbReponse;
+    protected String [] tabReponse;
     protected String JoueurNbMystere;
     protected String[] JoueurTabMystere;
     protected String CpuNbMystere;
@@ -19,6 +21,16 @@ public abstract class Game {
     protected String[] premierePropositionTab;
     protected String indice;
     protected String nextProposition;
+    private int choixJoueur;
+    protected boolean actifOrdi;
+    protected boolean actifHumain;
+    private int numJoueur;
+    protected String personum;
+    protected String humain;
+    protected String nomHumain;
+    protected String ordinateur;
+    protected Game adversaire;
+
     protected RandomStringGenerator generator = new RandomStringGenerator.Builder()
             .withinRange('0','9').build();
 
@@ -124,10 +136,8 @@ public abstract class Game {
         return nbMaxEssais;
     }
 
-
     public void setNbMaxEssais(int nbMaxEssais) {
         this.nbMaxEssais = nbMaxEssais;
-
     }
 
     public int getNbChiffreJoueur() {
@@ -137,6 +147,24 @@ public abstract class Game {
     public void setNbChiffreJoueur(int nbChiffreJoueur) {
         this.nbChiffreJoueur = nbChiffreJoueur;
     }
+
+        public String getNbReponse() {
+        return nbReponse;
+    }
+
+    public void setNbReponse(String nbReponse) {
+        this.nbReponse = nbReponse;
+    }
+
+    public String[] getTabReponse() {
+        return tabReponse;
+    }
+
+    public void setTabReponse(String[] tabReponse) {
+        this.tabReponse = tabReponse;
+    }
+
+
 
     protected void challengerMode () {
         /**
@@ -163,12 +191,12 @@ public abstract class Game {
         setEssaiRestant(getNbMaxEssais());
         setPremiereProposition("");
         do {
-            System.out.println("Vous pouvez entrer une combinaision de 1 à 10 chiffres");
-            System.out.println("Entrez votre combinaison secrète : "); //Faire une limitation de l'intervalle
+            System.out.println("Tu peux entrer une combinaision de 1 à 10 chiffres");
+            System.out.println("Entre ta combinaison secrète : "); //Faire une limitation de l'intervalle
             setJoueurNbMystere(entree.next());
             while (getJoueurNbMystere().matches("^[a-zA-Z]*$")) {
-                System.out.println("Vous ne devez mettre que des chiffres");
-                System.out.println("Vous pouvez entrer une combinaision de 1 à 10 chiffres");
+                System.out.println("Tu ne dois mettre que des chiffres");
+                System.out.println("Tu peux entrer une combinaision de 1 à 10 chiffres");
                 setJoueurNbMystere(entree.next());
             }
             setJoueurTabMystere(JoueurNbMystere.split("(?<=.)"));
@@ -179,7 +207,7 @@ public abstract class Game {
                 nbChiffreJoueur++;
             }
             if (nbChiffreJoueur<1 || nbChiffreJoueur>10) {
-                System.out.println("Vous devez entrer une combinaision de 1 à 10 chiffres");
+                System.out.println("Tu dois entrer une combinaision de 1 à 10 chiffres");
                 sortir = false;
             }else{
                 sortir = true;
@@ -189,7 +217,6 @@ public abstract class Game {
 
     }
 
-
     protected void duelMode () {
         /**
          * parametrages
@@ -197,18 +224,42 @@ public abstract class Game {
         setNbMaxEssais(10);
         setNbChiffreCpu(0);
         setNbChiffreJoueur(0);
+        int numJoueur = 1;
+        Game ordinateur = new Joueurs(numJoueur) {
+        };
+        numJoueur ++;
+        Game humain = new Joueurs(numJoueur) {
+        };
+        ordinateur.setAdversaire(humain);
+        humain.setAdversaire(ordinateur);
+        System.out.println("Qui commence en premier ?");
+        System.out.println("1 - Moi (l'ordinateur)");
+        System.out.println("2 - Toi ("+nomHumain+")");
+        System.out.println("Ta réponse : ");
+        choixJoueur = entree.nextInt();
+        if (choixJoueur == 1) {
+            ordinateur.activeJoueur();
+            actifOrdi = true;
+        }else if (choixJoueur == 2) {
+            humain.activeJoueur();
+            actifHumain = true;
+        }
+
         /**
          * CPU
          */
+        System.out.println("L'ordinateur saisi son nombre mystere");
         setCpuNbMystere(randomNumber);
         setCpuTabMystere(CpuNbMystere.split("(?<=.)"));
         for (int i = 0; i < CpuTabMystere.length; i++) {
             nbChiffreCpu++;
         }
+
         /**
          * player
          */
         do {
+            System.out.println("L'ordinateur a saisi sa combinsaison secrète.");
             System.out.println("Vous pouvez entrer une combinaision de 1 à 10 chiffres");
             System.out.println("Entrez votre combinaison secrète : "); //Faire une limitation de l'intervalle
             JoueurNbMystere = entree.next();
@@ -232,8 +283,39 @@ public abstract class Game {
             }
         }while (!sortir);
     }
+
+
+
     protected void developperMode () {
 
+    }
+
+
+    public void setHumain(String humain) {
+        this.humain = humain;
+    }
+
+    public void setOrdinateur(String ordinateur) {
+        this.ordinateur = ordinateur;
+    }
+
+    public String getOrdinateur() {
+        return ordinateur;
+    }
+
+    public Game getAdversaire() {
+        return adversaire;
+    }
+
+    public void setAdversaire(Game adversaire) {
+        this.adversaire = adversaire;
+    }
+
+    protected void activeJoueur () {
+        if (JoueurTabMystere != tabReponse && actifHumain) {
+            this.adversaire.activeJoueur();
+        }else if (CpuTabMystere != tabReponse && actifOrdi)
+            this.adversaire.activeJoueur();
     }
 }
 
