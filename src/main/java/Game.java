@@ -10,9 +10,13 @@ public abstract class Game {
     protected int nbChiffreJoueur;
     protected int nombreEssais;
     protected int essaiRestant;
+    protected int nombreEssaisOrdi;
+    protected int nombreEssaisHumain;
+    protected int essaiRestantOrdi;
+    protected int essaiRestantHumain;
     protected boolean sortir;
     protected String nbReponse;
-    protected String [] tabReponse;
+    protected String[] tabReponse;
     protected String JoueurNbMystere;
     protected String[] JoueurTabMystere;
     protected String CpuNbMystere;
@@ -21,18 +25,46 @@ public abstract class Game {
     protected String[] premierePropositionTab;
     protected String indice;
     protected String nextProposition;
-    private int choixJoueur;
+
     protected boolean actifOrdi;
     protected boolean actifHumain;
-    private int numJoueur;
-    protected String personum;
-    protected String humain;
-    protected String nomHumain;
-    protected String ordinateur;
-    protected Game adversaire;
+
+
+    public int getNombreEssaisOrdi() {
+        return nombreEssaisOrdi;
+    }
+
+    public void setNombreEssaisOrdi(int nombreEssaisOrdi) {
+        this.nombreEssaisOrdi = nombreEssaisOrdi;
+    }
+
+    public int getNombreEssaisHumain() {
+        return nombreEssaisHumain;
+    }
+
+    public void setNombreEssaisHumain(int nombreEssaisHumain) {
+        this.nombreEssaisHumain = nombreEssaisHumain;
+    }
+
+    public int getEssaiRestantOrdi() {
+        return essaiRestantOrdi;
+    }
+
+    public void setEssaiRestantOrdi(int essaiRestantOrdi) {
+        this.essaiRestantOrdi = essaiRestantOrdi;
+    }
+
+    public int getEssaiRestantHumain() {
+        return essaiRestantHumain;
+    }
+
+    public void setEssaiRestantHumain(int essaiRestantHumain) {
+        this.essaiRestantHumain = essaiRestantHumain;
+    }
+
 
     protected RandomStringGenerator generator = new RandomStringGenerator.Builder()
-            .withinRange('0','9').build();
+            .withinRange('0', '9').build();
 
     public String getRandomNumber() {
         return randomNumber;
@@ -42,7 +74,7 @@ public abstract class Game {
         this.randomNumber = randomNumber;
     }
 
-    protected String randomNumber = generator.generate(4,10);
+    protected String randomNumber = generator.generate(4, 10);
 
     public String getNextProposition() {
         return nextProposition;
@@ -148,7 +180,7 @@ public abstract class Game {
         this.nbChiffreJoueur = nbChiffreJoueur;
     }
 
-        public String getNbReponse() {
+    public String getNbReponse() {
         return nbReponse;
     }
 
@@ -165,8 +197,7 @@ public abstract class Game {
     }
 
 
-
-    protected void challengerMode () {
+    protected void challengerMode() {
         /**
          * parametrages
          */
@@ -184,7 +215,7 @@ public abstract class Game {
         }
     }
 
-    protected void defenseMode () {
+    protected void defenseMode() {
         setNbMaxEssais(10);
         setNbChiffreJoueur(0);
         setNombreEssais(1);
@@ -203,47 +234,30 @@ public abstract class Game {
             /**
              * Décompte de nbChiffre pour donner un indice au joueur
              */
-            for (int i = 0; i< JoueurTabMystere.length; i++){
+            for (int i = 0; i < JoueurTabMystere.length; i++) {
                 nbChiffreJoueur++;
             }
-            if (nbChiffreJoueur<1 || nbChiffreJoueur>10) {
+            if (nbChiffreJoueur < 1 || nbChiffreJoueur > 10) {
                 System.out.println("Tu dois entrer une combinaision de 1 à 10 chiffres");
                 sortir = false;
-            }else{
+            } else {
                 sortir = true;
             }
-        }while (!sortir);
+        } while (!sortir);
         setPremierePropositionTab(new String[getNbChiffreJoueur()]);
 
     }
 
-    protected void duelMode () {
+    protected void duelMode() {
         /**
          * parametrages
          */
         setNbMaxEssais(10);
         setNbChiffreCpu(0);
         setNbChiffreJoueur(0);
-        int numJoueur = 1;
-        Game ordinateur = new Joueurs(numJoueur) {
-        };
-        numJoueur ++;
-        Game humain = new Joueurs(numJoueur) {
-        };
-        ordinateur.setAdversaire(humain);
-        humain.setAdversaire(ordinateur);
-        System.out.println("Qui commence en premier ?");
-        System.out.println("1 - Moi (l'ordinateur)");
-        System.out.println("2 - Toi ("+nomHumain+")");
-        System.out.println("Ta réponse : ");
-        choixJoueur = entree.nextInt();
-        if (choixJoueur == 1) {
-            ordinateur.activeJoueur();
-            actifOrdi = true;
-        }else if (choixJoueur == 2) {
-            humain.activeJoueur();
-            actifHumain = true;
-        }
+        setPremiereProposition("");
+        setEssaiRestantHumain(getNbMaxEssais());
+        setEssaiRestantOrdi(getNbMaxEssais());
 
         /**
          * CPU
@@ -272,51 +286,25 @@ public abstract class Game {
             /**
              * Décompte de nbChiffre pour donner un indice au joueur
              */
-            for (int i = 0; i< JoueurTabMystere.length; i++){
+            for (int i = 0; i < JoueurTabMystere.length; i++) {
                 nbChiffreJoueur++;
             }
-            if (nbChiffreJoueur<1 || nbChiffreJoueur>10) {
+            if (nbChiffreJoueur < 1 || nbChiffreJoueur > 10) {
                 System.out.println("Vous devez entrer une combinaision de 1 à 10 chiffres");
                 sortir = false;
-            }else{
+            } else {
                 sortir = true;
             }
-        }while (!sortir);
+        } while (!sortir);
+        /**
+         * Parametrage Premiere proposition de l'ordi en fonction du nb du joueur
+         */
+        setPremierePropositionTab(new String[getNbChiffreJoueur()]);
     }
 
 
-
-    protected void developperMode () {
+    protected void developperMode() {
 
     }
 
-
-    public void setHumain(String humain) {
-        this.humain = humain;
-    }
-
-    public void setOrdinateur(String ordinateur) {
-        this.ordinateur = ordinateur;
-    }
-
-    public String getOrdinateur() {
-        return ordinateur;
-    }
-
-    public Game getAdversaire() {
-        return adversaire;
-    }
-
-    public void setAdversaire(Game adversaire) {
-        this.adversaire = adversaire;
-    }
-
-    protected void activeJoueur () {
-        if (JoueurTabMystere != tabReponse && actifHumain) {
-            this.adversaire.activeJoueur();
-        }else if (CpuTabMystere != tabReponse && actifOrdi)
-            this.adversaire.activeJoueur();
-    }
-}
-
-
+   }

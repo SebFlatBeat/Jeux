@@ -23,6 +23,7 @@ public class Menu extends Game {
     }
 
     public void rechercheMenu () {
+        Recherche recherche = new Recherche();
         System.out.println( " Tu as choisi le jeu recherche +/-");
         System.out.println(" ");
         System.out.println("Tu peux choisir trois mode de jeux !!!");
@@ -34,20 +35,22 @@ public class Menu extends Game {
         System.out.println(" ");
         System.out.println("Quel est ton choix ? 1 , 2 , 3 ou 4");
         System.out.println("Pour revenir au menu précedent entre le 5 ");
+        choix = entree.nextInt();
         if (choix == 1) {
-            challengerMode();
+            recherche.challengerMode();
         }else if (choix == 2) {
-            defenseMode();
+            recherche.defenseMode();
         }else if ( choix == 3) {
-            duelMode();
+            recherche.duelMode();
         }else if (choix == 4) {
-            developperMode();
+            recherche.developperMode();
         }else if (choix == 5) {
             firstMenu();
         }
     }
 
     public void mastermindMenu () {
+        Mastermind mastermind = new Mastermind();
         System.out.println( " Tu as choisi le jeu MasterMind");
         System.out.println(" ");
         System.out.println("Tu peux choisir trois mode de jeux !!!");
@@ -59,14 +62,15 @@ public class Menu extends Game {
         System.out.println(" ");
         System.out.println("Quel est ton choix ? 1 , 2 , 3 ou 4");
         System.out.println("Pour revenir au menu précedent entre le 5 ");
+        choix = entree.nextInt();
         if (choix == 1) {
-            challengerMode();
+            mastermind.challengerMode();
         }else if (choix == 2) {
-            defenseMode();
+            mastermind.defenseMode();
         }else if ( choix == 3) {
-            duelMode();
+            mastermind.duelMode();
         }else if (choix == 4) {
-            developperMode();
+            mastermind.developperMode();
         }else if (choix == 5) {
             firstMenu();
         }
