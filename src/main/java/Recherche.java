@@ -9,24 +9,33 @@ public class Recherche extends Game {
     @Override
     public void challengerMode() {
         super.challengerMode();
+        int choixJoueur;
         System.out.println("Bienvenue sur le jeu : Recherche +/-");
         System.out.println("Tu as choisi le mode Challenger !");
         System.out.println("Tu dois trouver la combinaison secrète. A chaque proposition des indices te seront donnés");
         System.out.println("les indices sont : '+' '-' et '=' ");
         System.out.println("Tu as le droit à " + getNbMaxEssais() + " essais pour y arriver !");
         System.out.println("Pour t'aider sache que la combinaison secrète est à " + getNbChiffreCpu() + " chiffres.");
-
-        System.out.println("Entre ta proposition : "); //Pense à catcher une exception afin que nbReponse ne soit pas inferieur ou superieur nbChiffre
+        if (isDevMode()) {
+            System.out.println("Mode developpeur activé");
+            System.out.println("Voici la combinaison de l'ordinateur : " +getCpuNbMystere() );
+        }
+        System.out.println("Entre ta proposition : ");
         nbReponse = entree.next();
         tabReponse = nbReponse.split("(?<=.)");
 
+        /**
+         * Boucle permettant de s'assurer que la saisie de l'utilisateur fasse la meme taille que la combinaison secrete
+         */
         while (tabReponse.length != getCpuTabMystere().length) {
             System.out.println("Ta réponse ne fait pas la meme taille que la combinaison secrète !!");
             System.out.println("Entre une reponse qui fait la taille de " + nbChiffreCpu + " chiffre(s)");
             nbReponse = entree.next();
             tabReponse = nbReponse.split("(?<=.)");
         }
-
+        /**
+         * Boucle tant que la reponse ne correspond pas au nombre mystere et que le nombre d'essai est inferieur au nombre d'essai max
+         */
         while (!Arrays.equals(tabReponse, getCpuTabMystere()) && getNombreEssais() < getNbMaxEssais()) {
             setIndice("");
             String[] compare = new String[getCpuTabMystere().length];
@@ -47,6 +56,9 @@ public class Recherche extends Game {
             System.out.println("Entre une nouvelle proposition : ");
             nbReponse = entree.next();
             tabReponse = nbReponse.split("(?<=.)");
+            /**
+             * Boucle permettant de s'assurer que la saisie de l'utilisateur fasse la meme taille que la combinaison secrete
+             */
             while (tabReponse.length != getCpuTabMystere().length) {
                 System.out.println("Ta réponse ne fait pas la meme taille que la combinaison secrète !!");
                 System.out.println("Entre une reponse qui fait la taille de " + nbChiffreCpu + " chiffres");
@@ -55,6 +67,9 @@ public class Recherche extends Game {
             }
             nombreEssais = nombreEssais + 1;
         }
+        /**
+         * Condition pour le dernier essai et la victoire
+         */
         if (nombreEssais >= getNbMaxEssais() && !Arrays.equals(tabReponse, getCpuTabMystere())) {
             setIndice("");
             String[] compare = new String[getCpuTabMystere().length];
@@ -75,6 +90,55 @@ public class Recherche extends Game {
         } else {
             System.out.println("Félicitations !!! Tu as reussi avec " + nombreEssais + " essai(s)");
         }
+
+        /**
+         * Propostion de rejoueur ou de revenir à d'autres menus
+         */
+        System.out.println("Souhaites-tu rejouer une partie en Mode challenger ?");
+        System.out.println("1 - Oui");
+        System.out.println("2 - Non");
+        choixJoueur = entree.nextInt();
+        if (choixJoueur == 1) {
+            Recherche recherche = new Recherche();
+            recherche.challengerMode();
+        } else if (choixJoueur == 2) {
+            System.out.println("Souhaites-tu revenir au menu du jeu Recherche +/- ?");
+            System.out.println("1 - Oui");
+            System.out.println("2 - Non");
+            choixJoueur = entree.nextInt();
+            if (choixJoueur == 1) {
+                System.out.println("Choisis ton mode de jeux :");
+                System.out.println("1 - Mode Challenger");
+                System.out.println("2 - Mode Defenseur");
+                System.out.println("3 - Mode Duel");
+                System.out.println("4 - Revenir au menu principal");
+                choixJoueur = entree.nextInt();
+                if (choixJoueur == 1) {
+                    Recherche recherche = new Recherche();
+                    recherche.challengerMode();
+                } else if (choixJoueur == 2) {
+                    Recherche recherche = new Recherche();
+                    recherche.defenseMode();
+                } else if (choixJoueur == 3) {
+                    Recherche recherche = new Recherche();
+                    recherche.duelMode();
+                }else if (choixJoueur == 4) {
+                    Menu menu = new Menu();
+                    menu.firstMenu();
+                }
+            } else if (choixJoueur == 2) {
+                System.out.println("Souhaites-tu revenir au menu principal ?");
+                System.out.println("1 - Oui");
+                System.out.println("2 - Non");
+                choixJoueur = entree.nextInt();
+                if (choixJoueur == 1) {
+                    Menu menu = new Menu();
+                    menu.firstMenu();
+                } else if (choixJoueur == 2) {
+                    System.out.println("A bientôt");
+                }
+            }
+        }
     }
 
 
@@ -83,6 +147,7 @@ public class Recherche extends Game {
         super.defenseMode();
         String nextProposition = ("");
         int proposition = 0;
+        int choixJoueur;
         System.out.println("Bienvenue sur le jeu : Recherche +/-");
         System.out.println("Tu as choisi le mode Défenseur !");
         System.out.println("L'ordinateur doit trouver ta combinaison secrète.");
@@ -186,6 +251,54 @@ public class Recherche extends Game {
         } else {
             System.out.println("L'ordinateur a proposé : " + nbReponse);
             System.out.println("Tu as perdu !!! L'ordinateur a reussi avec " + nombreEssais + " essai(s)");
+        }
+        /**
+         * Propostion de rejoueur ou de revenir à d'autres menus
+         */
+        System.out.println("Souhaites-tu rejouer une partie en Mode defense ?");
+        System.out.println("1 - Oui");
+        System.out.println("2 - Non");
+        choixJoueur = entree.nextInt();
+        if (choixJoueur == 1) {
+            Recherche recherche = new Recherche();
+            recherche.defenseMode();
+        } else if (choixJoueur == 2) {
+            System.out.println("Souhaites-tu revenir au menu du jeu Recherche +/- ?");
+            System.out.println("1 - Oui");
+            System.out.println("2 - Non");
+            choixJoueur = entree.nextInt();
+            if (choixJoueur == 1) {
+                System.out.println("Choisis ton mode de jeux :");
+                System.out.println("1 - Mode Challenger");
+                System.out.println("2 - Mode Defenseur");
+                System.out.println("3 - Mode Duel");
+                System.out.println("4 - Revenir au menu principal");
+                choixJoueur = entree.nextInt();
+                if (choixJoueur == 1) {
+                    Recherche recherche = new Recherche();
+                    recherche.challengerMode();
+                } else if (choixJoueur == 2) {
+                    Recherche recherche = new Recherche();
+                    recherche.defenseMode();
+                } else if (choixJoueur == 3) {
+                    Recherche recherche = new Recherche();
+                    recherche.duelMode();
+                } else if (choixJoueur == 4) {
+                    Menu menu = new Menu();
+                    menu.firstMenu();
+                }
+            } else if (choixJoueur == 2) {
+                System.out.println("Souhaites-tu revenir au menu principal ?");
+                System.out.println("1 - Oui");
+                System.out.println("2 - Non");
+                choixJoueur = entree.nextInt();
+                if (choixJoueur == 1) {
+                    Menu menu = new Menu();
+                    menu.firstMenu();
+                } else if (choixJoueur == 2) {
+                    System.out.println("A bientôt");
+                }
+            }
         }
     }
 
@@ -305,7 +418,7 @@ public class Recherche extends Game {
                             nextProposition = nextProposition + predictionProposition;
                         }
                         essaiRestantOrdi = essaiRestantOrdi - 1;
-
+                        nombreEssaisOrdi = nombreEssaisOrdi + 1;
                         System.out.println("L'ordinateur a proposé : " + nbReponse + " -> Voici des indices pour l'aider : " + indice);
                         System.out.println("Il lui reste " + essaiRestantOrdi + " essais !");
                         actifHumain = true;
@@ -363,7 +476,9 @@ public class Recherche extends Game {
                         System.out.println("L'ordinateur a proposé : " + nbReponse);
                         System.out.println("Tu as perdu !!! L'ordinateur a reussi avec " + nombreEssaisOrdi + " essai(s)");
                         play = false;
+                        actifOrdi = false;
                     }
+
                 }
             }
 
@@ -373,6 +488,10 @@ public class Recherche extends Game {
             while (actifHumain) {
                 nombreEssaisHumain = nombreEssaisHumain + 1;
                 System.out.println("Pour information la combinaision de l'ordinateur est de " + getNbChiffreCpu() + " chiffres !");
+                if (isDevMode()) {
+                    System.out.println("Mode developpeur activé");
+                    System.out.println("Voici la combinaison de l'ordinateur : " +getCpuNbMystere() );
+                }
                 System.out.println("Saisi ta proposition :");
                 nbReponse = entree.next();
                 tabReponse = nbReponse.split("(?<=.)");
@@ -427,6 +546,7 @@ public class Recherche extends Game {
                         play = true;
                     } else {
                         play = false;
+                        actifHumain = false;
                     }
 
                 } else if (nombreEssaisHumain <= getNbMaxEssais() && Arrays.equals(tabReponse, getCpuTabMystere()) && actifHumain) {
@@ -443,8 +563,79 @@ public class Recherche extends Game {
         System.out.println("2 - Non");
         choixJoueur = entree.nextInt();
         if (choixJoueur == 1) {
-            duelMode();
-        }else if (choixJoueur == 2) {
+            Recherche recherche = new Recherche();
+            recherche.duelMode();
+        } else if (choixJoueur == 2) {
+            System.out.println("Souhaites-tu revenir au menu du jeu Recherche +/- ?");
+            System.out.println("1 - Oui");
+            System.out.println("2 - Non");
+            choixJoueur = entree.nextInt();
+            if (choixJoueur == 1) {
+                System.out.println("Choisis ton mode de jeux :");
+                System.out.println("1 - Mode Challenger");
+                System.out.println("2 - Mode Defenseur");
+                System.out.println("3 - Mode Duel");
+                System.out.println("4 - Revenir au menu principal");
+                choixJoueur = entree.nextInt();
+                if (choixJoueur == 1) {
+                    Recherche recherche = new Recherche();
+                    recherche.challengerMode();
+                } else if (choixJoueur == 2) {
+                    Recherche recherche = new Recherche();
+                    recherche.defenseMode();
+                } else if (choixJoueur == 3) {
+                    Recherche recherche = new Recherche();
+                    recherche.duelMode();
+                } else if (choixJoueur == 4) {
+                    Menu menu = new Menu();
+                    menu.firstMenu();
+                }
+            } else if (choixJoueur == 2) {
+                System.out.println("Souhaites-tu revenir au menu principal ?");
+                System.out.println("1 - Oui");
+                System.out.println("2 - Non");
+                choixJoueur = entree.nextInt();
+                if (choixJoueur == 1) {
+                    Menu menu = new Menu();
+                    menu.firstMenu();
+                } else if (choixJoueur == 2) {
+                    System.out.println("A bientôt");
+                }
+            }
+        }
+    }
+
+    @Override
+    protected void developperMode() {
+        super.developperMode();
+        int choixJoueur;
+        System.out.println("Le nombre mystere de l'ordinateur est : ");
+        System.out.println(getCpuNbMystere());
+        System.out.println("Souhaites-tu revenir au menu du jeu Recherche +/- ?");
+        System.out.println("1 - Oui");
+        System.out.println("2 - Non");
+        choixJoueur = entree.nextInt();
+        if (choixJoueur == 1) {
+            System.out.println("Choisis ton mode de jeux :");
+            System.out.println("1 - Mode Challenger");
+            System.out.println("2 - Mode Defenseur");
+            System.out.println("3 - Mode Duel");
+            System.out.println("4 - Revenir au menu principal");
+            choixJoueur = entree.nextInt();
+            if (choixJoueur == 1) {
+                Recherche recherche = new Recherche();
+                recherche.challengerMode();
+            } else if (choixJoueur == 2) {
+                Recherche recherche = new Recherche();
+                recherche.defenseMode();
+            } else if (choixJoueur == 3) {
+                Recherche recherche = new Recherche();
+                recherche.duelMode();
+            } else if (choixJoueur == 4) {
+                Menu menu = new Menu();
+                menu.firstMenu();
+            }
+        } else if (choixJoueur == 2) {
             System.out.println("Souhaites-tu revenir au menu principal ?");
             System.out.println("1 - Oui");
             System.out.println("2 - Non");
@@ -452,7 +643,7 @@ public class Recherche extends Game {
             if (choixJoueur == 1) {
                 Menu menu = new Menu();
                 menu.firstMenu();
-            }else if (choixJoueur == 2) {
+            } else if (choixJoueur == 2) {
                 System.out.println("A bientôt");
             }
         }

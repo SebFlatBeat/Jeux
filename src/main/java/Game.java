@@ -25,10 +25,17 @@ public abstract class Game {
     protected String[] premierePropositionTab;
     protected String indice;
     protected String nextProposition;
-
+    protected boolean devMode;
     protected boolean actifOrdi;
     protected boolean actifHumain;
 
+    public boolean isDevMode() {
+        return devMode;
+    }
+
+    public void setDevMode(boolean devMode) {
+        this.devMode = devMode;
+    }
 
     public int getNombreEssaisOrdi() {
         return nombreEssaisOrdi;
@@ -201,6 +208,7 @@ public abstract class Game {
         /**
          * parametrages
          */
+
         setNbMaxEssais(10);
         setNbChiffreCpu(0);
         setNombreEssais(1);
@@ -222,12 +230,12 @@ public abstract class Game {
         setEssaiRestant(getNbMaxEssais());
         setPremiereProposition("");
         do {
-            System.out.println("Tu peux entrer une combinaision de 1 à 10 chiffres");
+            System.out.println("Tu peux entrer une combinaision de 4 à 10 chiffres");
             System.out.println("Entre ta combinaison secrète : "); //Faire une limitation de l'intervalle
             setJoueurNbMystere(entree.next());
             while (getJoueurNbMystere().matches("^[a-zA-Z]*$")) {
                 System.out.println("Tu ne dois mettre que des chiffres");
-                System.out.println("Tu peux entrer une combinaision de 1 à 10 chiffres");
+                System.out.println("Tu peux entrer une combinaision de 4 à 10 chiffres");
                 setJoueurNbMystere(entree.next());
             }
             setJoueurTabMystere(JoueurNbMystere.split("(?<=.)"));
@@ -237,8 +245,8 @@ public abstract class Game {
             for (int i = 0; i < JoueurTabMystere.length; i++) {
                 nbChiffreJoueur++;
             }
-            if (nbChiffreJoueur < 1 || nbChiffreJoueur > 10) {
-                System.out.println("Tu dois entrer une combinaision de 1 à 10 chiffres");
+            if (nbChiffreJoueur < 4 || nbChiffreJoueur > 10) {
+                System.out.println("Tu dois entrer une combinaision de 4 à 10 chiffres");
                 sortir = false;
             } else {
                 sortir = true;
@@ -274,12 +282,12 @@ public abstract class Game {
          */
         do {
             System.out.println("L'ordinateur a saisi sa combinsaison secrète.");
-            System.out.println("Vous pouvez entrer une combinaision de 1 à 10 chiffres");
+            System.out.println("Vous pouvez entrer une combinaision de 4 à 10 chiffres");
             System.out.println("Entrez votre combinaison secrète : "); //Faire une limitation de l'intervalle
             JoueurNbMystere = entree.next();
             while (JoueurNbMystere.matches("^[a-zA-Z]*$")) {
                 System.out.println("Vous ne devez mettre que des chiffres");
-                System.out.println("Vous pouvez entrer une combinaision de 1 à 10 chiffres");
+                System.out.println("Vous pouvez entrer une combinaision de 4 à 10 chiffres");
                 JoueurNbMystere = entree.next();
             }
             JoueurTabMystere = JoueurNbMystere.split("(?<=.)");
@@ -289,8 +297,8 @@ public abstract class Game {
             for (int i = 0; i < JoueurTabMystere.length; i++) {
                 nbChiffreJoueur++;
             }
-            if (nbChiffreJoueur < 1 || nbChiffreJoueur > 10) {
-                System.out.println("Vous devez entrer une combinaision de 1 à 10 chiffres");
+            if (nbChiffreJoueur < 4 || nbChiffreJoueur > 10) {
+                System.out.println("Vous devez entrer une combinaision de 4 à 10 chiffres");
                 sortir = false;
             } else {
                 sortir = true;
@@ -304,7 +312,7 @@ public abstract class Game {
 
 
     protected void developperMode() {
-
+        setCpuNbMystere(randomNumber);
     }
 
    }
