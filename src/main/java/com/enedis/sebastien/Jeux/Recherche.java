@@ -211,10 +211,14 @@ public class Recherche extends Game {
 
     @Override
     public void defenseMode() {
+        /**
+         * Parametres
+         */
         super.defenseMode();
         String nextProposition = ("");
         int proposition = 0;
         int choixJoueur = 0;
+
         System.out.println("Bienvenue sur le jeu : Recherche +/-");
         System.out.println("Tu as choisi le mode Défenseur !");
         System.out.println("L'ordinateur doit trouver ta combinaison secrète.");
@@ -434,6 +438,9 @@ public class Recherche extends Game {
 
     @Override
     protected void duelMode() {
+        /**
+         * Paramètres
+         */
         super.duelMode();
         String nextProposition = ("");
         int proposition = 0;

@@ -271,7 +271,6 @@ public abstract class Game {
         /**
          * parametrages
          */
-
         setNbMaxEssais(10);
         setNbChiffreCpu(0);
         setNbChiffreJoueur(0);
@@ -322,10 +321,4 @@ public abstract class Game {
          */
         setPremierePropositionTab(new String[getNbChiffreJoueur()]);
     }
-
-
-    protected void developperMode() {
-
-    }
-
-   }
+}
