@@ -312,6 +312,8 @@ public class Mastermind extends Game{
                 }
                 testTab = nextProposition.split("(?<=.)");
             }
+            String eraseTestTab[] = {};
+            testTab = eraseTestTab;
             essaiRestant = essaiRestant - 1;
             System.out.println("Il a proposé : " + nbReponse + " -> Voici des indices pour l'aider : Il a " + nbBienPlace + " chiffre(s) de bien placé(s) et " + nbMalPlace + " chiffre(s) de mal placé(s)");
             System.out.println("Il lui reste " + essaiRestant + " essais !");
@@ -364,6 +366,8 @@ public class Mastermind extends Game{
                 }
                 testTab = nextProposition.split("(?<=.)");
             }
+            String eraseTestTab[] = {};
+            testTab = eraseTestTab;
             essaiRestant = essaiRestant - 1;
             System.out.println("Il a proposé : " + nbReponse + " -> Voici des indices pour l'aider : Il a " + nbBienPlace + " chiffre(s) de bien placé(s) et " + nbMalPlace + " chiffre(s) de mal placé(s)");
             System.out.println("Mais il a dépassé le nombre d'essais autorisé qui était de " + getNbMaxEssais() + "  essai(s)");
@@ -573,6 +577,8 @@ public class Mastermind extends Game{
                         }
                         testTab = nextProposition.split("(?<=.)");
                     }
+                    String eraseTestTab[] = {};
+                    testTab = eraseTestTab;
                     essaiRestantOrdi = essaiRestantOrdi - 1;
                     nombreEssaisOrdi = nombreEssaisOrdi + 1;
                     System.out.println("Il a proposé : " + nbReponse + " -> Voici des indices pour l'aider : Il a " + nbBienPlace + " chiffre(s) de bien placé(s) et " + nbMalPlace + " chiffre(s) de mal placé(s)");
@@ -627,6 +633,8 @@ public class Mastermind extends Game{
                             }
                             testTab = nextProposition.split("(?<=.)");
                         }
+                        String eraseTestTab[] = {};
+                        testTab = eraseTestTab;
                         essaiRestantOrdi = essaiRestantOrdi - 1;
                         nombreEssaisOrdi = nombreEssaisOrdi + 1;
                         System.out.println("Il a proposé : " + nbReponse + " -> Voici des indices pour l'aider : Il a " + nbBienPlace + " chiffre(s) de bien placé(s) et " + nbMalPlace + " chiffre(s) de mal placé(s)");
@@ -676,6 +684,8 @@ public class Mastermind extends Game{
                             }
                             testTab = nextProposition.split("(?<=.)");
                         }
+                        String eraseTestTab[] = {};
+                        testTab = eraseTestTab;
                         essaiRestantOrdi = essaiRestantOrdi - 1;
                         nombreEssaisOrdi = nombreEssaisOrdi + 1;
                         System.out.println("Il a proposé : " + nbReponse + " -> Voici des indices pour l'aider : Il a " + nbBienPlace + " chiffre(s) de bien placé(s) et " + nbMalPlace + " chiffre(s) de mal placé(s)");
