@@ -65,5 +65,5 @@ public class Joueurs extends Game {
     public String getOrdinateur() {
         return ordinateur;
     }
-    
+
 }
