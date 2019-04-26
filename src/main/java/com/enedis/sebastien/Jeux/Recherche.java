@@ -15,6 +15,7 @@ public class Recherche extends Game {
 
     @Override
     public void challengerMode() {
+        devMode();
         super.challengerMode();
         int choixJoueur = 0;
         System.out.println("Bienvenue sur le jeu : Recherche +/-");
@@ -214,6 +215,8 @@ public class Recherche extends Game {
         /**
          * Parametres
          */
+
+        devMode();
         super.defenseMode();
         String nextProposition = ("");
         int proposition = 0;
@@ -224,7 +227,7 @@ public class Recherche extends Game {
         System.out.println("L'ordinateur doit trouver ta combinaison secrète.");
         System.out.println("Il a le droit à " + getNbMaxEssais() + " essais pour y arriver !");
         System.out.println("Ta combinaison secrète est à " + getNbChiffreJoueur() + " chiffres.");
-        if (devMode==true) {
+        if (this.devMode) {
             System.out.println("Mode developpeur activé");
             System.out.println("Voici ta combinaison saisi : " +getJoueurNbMystere() );
         }
@@ -441,12 +444,13 @@ public class Recherche extends Game {
         /**
          * Paramètres
          */
+        devMode();
         super.duelMode();
         String nextProposition = ("");
         int proposition = 0;
         int choixJoueur = 0;
         boolean play = true;
-        if (devMode) {
+        if (this.devMode) {
             System.out.println("Mode developpeur activé");
             System.out.println("Voici la combinaison de l'ordinateur : " +getCpuNbMystere() );
             System.out.println("Voici ta combinaison saisi : " +getJoueurNbMystere());
@@ -641,7 +645,7 @@ public class Recherche extends Game {
             while (actifHumain) {
                 nombreEssaisHumain = nombreEssaisHumain + 1;
                 System.out.println("Pour information la combinaision de l'ordinateur est de " + getNbChiffreCpu() + " chiffres !");
-                if (isDevMode()) {
+                if (devMode = true) {
                     System.out.println("Mode developpeur activé");
                     System.out.println("Voici la combinaison de l'ordinateur : " +getCpuNbMystere() );
                 }
@@ -816,4 +820,3 @@ public class Recherche extends Game {
         }
     }
 }
-

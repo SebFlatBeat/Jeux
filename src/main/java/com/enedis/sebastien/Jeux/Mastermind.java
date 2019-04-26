@@ -16,6 +16,7 @@ public class Mastermind extends Game{
 
     @Override
     public void challengerMode() {
+        devMode();
         super.challengerMode();
         /**
          * Parametres supplementaires
@@ -34,7 +35,7 @@ public class Mastermind extends Game{
         /**
          * condition si mode developpeur est activé
          */
-        if (devMode = true) {
+        if (this.devMode) {
             System.out.println("Mode developpeur activé");
             System.out.println("Voici la combinaison de l'ordinateur : " +getCpuNbMystere() );
         }
@@ -128,11 +129,11 @@ public class Mastermind extends Game{
                     }
                 }
             }
-            System.out.println("Tu as proposé : " + nbReponse + " -> Voici des indices pour t'aider : Tu as " + nbBienPlace + " chiffre(s) de bien placé(s) et " + nbMalPlace + " chiffre(s) de mal placé(s)");
+            LOGGER.info("Tu as proposé : " + nbReponse + " -> Voici des indices pour t'aider : Tu as " + nbBienPlace + " chiffre(s) de bien placé(s) et " + nbMalPlace + " chiffre(s) de mal placé(s)");
             System.out.println("Seulement tu as dépassé le nombre d'essais autorisé qui était de " + getNbMaxEssais() + "  essai(s)");
             System.out.println("Voici la solution : " + getCpuNbMystere());
         } else {
-            System.out.println("Félicitations !!! Tu as reussi avec " + nombreEssais + " essai(s)");
+            LOGGER.info("Félicitations !!! Tu as reussi avec " + nombreEssais + " essai(s)");
         }
         /**
          * Propostion de rejoueur ou de revenir à d'autres menus
@@ -243,7 +244,8 @@ public class Mastermind extends Game{
 
     @Override
     public void defenseMode() {
-    super.defenseMode();
+        devMode();
+        super.defenseMode();
         String nextProposition = ("");
         String [] testTab = nextProposition.split("(?<=.)");
         int proposition = 0;
@@ -258,6 +260,11 @@ public class Mastermind extends Game{
         System.out.println("L'ordinateur doit trouver ta combinaison secrète.");
         System.out.println("Il a le droit à " + getNbMaxEssais() + " essais pour y arriver !");
         System.out.println("Ta combinaison secrète est à " + getNbChiffreJoueur() + " chiffres.");
+        if (this.devMode) {
+            System.out.println("Mode developpeur activé");
+            System.out.println("Voici ta combinaison saisi : " +getJoueurNbMystere() );
+        }
+
         LOGGER.info("L'ordinateur entre sa proposition. ");
         /**
          * Premiere proposition du CPU avec la valeur 1 et de la meme longueur que le nombre mystère du joueur
@@ -319,6 +326,7 @@ public class Mastermind extends Game{
             System.out.println("Il lui reste " + essaiRestant + " essais !");
             System.out.println("L'ordinateur entre sa nouvelle proposition. ");
             nbReponse = nextProposition;
+            LOGGER.info(nbReponse);
             tabReponse = nextProposition.split("(?<=.)");
             nombreEssais = nombreEssais + 1;
         }
@@ -369,17 +377,17 @@ public class Mastermind extends Game{
             String eraseTestTab[] = {};
             testTab = eraseTestTab;
             essaiRestant = essaiRestant - 1;
-            System.out.println("Il a proposé : " + nbReponse + " -> Voici des indices pour l'aider : Il a " + nbBienPlace + " chiffre(s) de bien placé(s) et " + nbMalPlace + " chiffre(s) de mal placé(s)");
+            LOGGER.info("Il a proposé : " + nbReponse + " -> Voici des indices pour l'aider : Il a " + nbBienPlace + " chiffre(s) de bien placé(s) et " + nbMalPlace + " chiffre(s) de mal placé(s)");
             System.out.println("Mais il a dépassé le nombre d'essais autorisé qui était de " + getNbMaxEssais() + "  essai(s)");
             System.out.println("Voici la solution : " + getJoueurNbMystere() + " Tu as gagné !!!!");
         } else {
-            System.out.println("L'ordinateur a proposé : " + nbReponse);
+            LOGGER.info("L'ordinateur a proposé : " + nbReponse);
             System.out.println("Tu as perdu !!! L'ordinateur a reussi avec " + nombreEssais + " essai(s)");
         }
         /**
          * Propostion de rejoueur ou de revenir à d'autres menus
          */
-        System.out.println("Souhaites-tu rejouer une partie en Mode defense ?");
+        LOGGER.info("Souhaites-tu rejouer une partie en Mode defense ?");
         System.out.println("1 - Oui");
         System.out.println("2 - Non");
         do {
@@ -487,6 +495,7 @@ public class Mastermind extends Game{
         /**
          * Paramètres
          */
+        devMode();
         super.duelMode();
         String nextProposition = ("");
         String [] testTab = nextProposition.split("(?<=.)");
@@ -496,8 +505,8 @@ public class Mastermind extends Game{
         String malPlace = "-2";
         String enleverNbPlace = "";
         boolean play = true;
-        if (devMode) {
-            System.out.println("Mode developpeur activé");
+        if (this.devMode) {
+            LOGGER.info("Mode developpeur activé");
             System.out.println("Voici la combinaison de l'ordinateur : " +getCpuNbMystere() );
             System.out.println("Voici ta combinaison saisi : " +getJoueurNbMystere());
         }
@@ -537,6 +546,13 @@ public class Mastermind extends Game{
                  */
                 if (nombreEssaisOrdi < 1) {
                     LOGGER.info("L'ordinateur saisit sa proposition.");
+                    for (int i = 0; i < getNbChiffreJoueur(); i++) {
+                        getPremierePropositionTab()[i] = String.valueOf(5);
+                        premiereProposition = getPremiereProposition() + getPremierePropositionTab()[i];
+                    }
+                    nbReponse = premiereProposition;
+                    LOGGER.info(nbReponse);
+
                     int nbBienPlace = 0;
                     int nbMalPlace = 0;
                     String[] copy = tabReponse;
@@ -688,7 +704,7 @@ public class Mastermind extends Game{
                         testTab = eraseTestTab;
                         essaiRestantOrdi = essaiRestantOrdi - 1;
                         nombreEssaisOrdi = nombreEssaisOrdi + 1;
-                        System.out.println("Il a proposé : " + nbReponse + " -> Voici des indices pour l'aider : Il a " + nbBienPlace + " chiffre(s) de bien placé(s) et " + nbMalPlace + " chiffre(s) de mal placé(s)");
+                        LOGGER.info("Il a proposé : " + nbReponse + " -> Voici des indices pour l'aider : Il a " + nbBienPlace + " chiffre(s) de bien placé(s) et " + nbMalPlace + " chiffre(s) de mal placé(s)");
                         System.out.println("Mais il a dépassé le nombre d'essais autorisé qui était de " + getNbMaxEssais() + "  essai(s)");
                         System.out.println("Voici la solution : " + getJoueurNbMystere() + " Tu as gagné !!!!");
                         actifHumain = true;
@@ -697,7 +713,7 @@ public class Mastermind extends Game{
                         play = essaiRestantHumain != 0;
                     }
                     if (nombreEssaisOrdi <= getNbMaxEssais() && Arrays.equals(tabReponse, getJoueurTabMystere()) && actifOrdi) {
-                        System.out.println("L'ordinateur a proposé : " + nbReponse);
+                        LOGGER.info("L'ordinateur a proposé : " + nbReponse);
                         System.out.println("Tu as perdu !!! L'ordinateur a reussi avec " + nombreEssaisOrdi + " essai(s)");
                         play = false;
                         actifOrdi = false;
@@ -711,8 +727,8 @@ public class Mastermind extends Game{
             while (actifHumain) {
                 nombreEssaisHumain = nombreEssaisHumain + 1;
                 System.out.println("Pour information la combinaision de l'ordinateur est de " + getNbChiffreCpu() + " chiffres !");
-                if (isDevMode()) {
-                    System.out.println("Mode developpeur activé");
+                if (devMode = true) {
+                    LOGGER.info("Mode developpeur activé");
                     System.out.println("Voici la combinaison de l'ordinateur : " +getCpuNbMystere() );
                 }
                 LOGGER.info("Saisi ta proposition :");
@@ -787,7 +803,7 @@ public class Mastermind extends Game{
                         }
                     }
                     essaiRestant = essaiRestant - 1;
-                    System.out.println("Tu as proposé : " + nbReponse + " -> Voici des indices pour t'aider : Tu as " + nbBienPlace + " chiffre(s) de bien placé(s) et " + nbMalPlace + " chiffre(s) de mal placé(s)");
+                    LOGGER.info("Tu as proposé : " + nbReponse + " -> Voici des indices pour t'aider : Tu as " + nbBienPlace + " chiffre(s) de bien placé(s) et " + nbMalPlace + " chiffre(s) de mal placé(s)");
                     System.out.println("Seulement tu as dépassé le nombre d'essais autorisé qui était de " + getNbMaxEssais() + "  essai(s)");
                     System.out.println("Voici la solution : " + getCpuNbMystere());
                     if (essaiRestantOrdi != 0) {
@@ -798,7 +814,7 @@ public class Mastermind extends Game{
                     }
 
                 } else if (nombreEssaisHumain <= getNbMaxEssais() && Arrays.equals(tabReponse, getCpuTabMystere()) && actifHumain) {
-                    System.out.println("Félicitations !!! Tu as reussi avec " + nombreEssaisHumain + " essai(s)");
+                    LOGGER.info("Félicitations !!! Tu as reussi avec " + nombreEssaisHumain + " essai(s)");
                     play = false;
                 }
                 actifOrdi = true;

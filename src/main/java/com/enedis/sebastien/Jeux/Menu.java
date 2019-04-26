@@ -9,60 +9,22 @@ public class Menu extends Game {
     private static final Logger LOGGER = LogManager.getLogger(Menu.class.getName());
     Scanner entree = new Scanner(System.in);
     int choix;
-    boolean bonChoix;
+    protected boolean bonChoix;
 
-    /**
-     * DevMode
-     */
-    public void devMode() {
-        System.out.println("Bienvenu dans notre petit espace de jeu !");
-        System.out.println(" ");
-        LOGGER.info("Avant de commencer souhaites-tu activer le mode developpeur?");
-        System.out.println("1 - Oui");
-        System.out.println("2 - Non");
-        System.out.println("Pour quitter le jeu immediatement entre 3");
-        do {
-            try {
-                bonChoix = true;
-                LOGGER.debug(choix = entree.nextInt());
-            } catch (InputMismatchException e) {
-                entree.next();
-                LOGGER.error("Vous ne devez saisir que des chiffres");
-                bonChoix = false;
-            }
-            if (choix > 3 || choix < 1) {
-                LOGGER.error("Votre réponse est incorrecte");
-                LOGGER.error("Veuillez à nouveau rentrer votre choix");
-                bonChoix = false;
-            }
-        } while (!bonChoix);
-
-        if (choix == 1) {
-            setDevMode(true);
-            firstMenu();
-        }
-        if (choix == 2) {
-            setDevMode(false);
-            firstMenu();
-        }
-        if (choix == 3) {
-            System.out.println("A bientôt !");
-        }
-    }
 
     /**
      * Premier Menu
      */
     public void firstMenu() {
-
+        System.out.println("Bienvenu dans notre petit espace de jeu !");
+        System.out.println(" ");
         System.out.println("Ici, tu as le choix entre deux jeux");
         System.out.println(" ");
         LOGGER.info(" 1 - Le Recherche +/-");
         LOGGER.info(" 2 - Le MasterMind");
         System.out.println(" ");
         System.out.println("Quel est ton choix ? 1 ou 2 ");
-        LOGGER.info("Pour revenir au menu précedent, entre 3");
-        LOGGER.info("Pour quitter le jeu immediatement entre 4");
+        LOGGER.info("Pour quitter le jeu immediatement entre 3");
         do {
             try {
 
@@ -73,7 +35,7 @@ public class Menu extends Game {
                 LOGGER.error("Vous ne devez saisir que des chiffres");
                 bonChoix = false;
             }
-            if (choix > 4 || choix < 1) {
+            if (choix > 3 || choix < 1) {
                 LOGGER.error("Votre réponse est incorrecte");
                 LOGGER.error("Veuillez à nouveau rentrer votre choix");
                 bonChoix = false;
@@ -161,15 +123,15 @@ public class Menu extends Game {
             }
         }while (!bonChoix) ;
 
-            if (choix == 1) {
-                mastermind.challengerMode();
-            } else if (choix == 2) {
-                mastermind.defenseMode();
-            } else if (choix == 3) {
-                mastermind.duelMode();
-            } else if (choix == 4) {
-                firstMenu();
-            }
+        if (choix == 1) {
+            mastermind.challengerMode();
+        } else if (choix == 2) {
+            mastermind.defenseMode();
+        } else if (choix == 3) {
+            mastermind.duelMode();
+        } else if (choix == 4) {
+            firstMenu();
+        }
     }
 }
 

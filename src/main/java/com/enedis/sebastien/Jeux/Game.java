@@ -2,6 +2,8 @@ package com.enedis.sebastien.Jeux;
 import org.apache.commons.text.RandomStringGenerator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 
@@ -19,7 +21,7 @@ public abstract class Game {
     protected int nombreEssaisHumain;
     protected int essaiRestantOrdi;
     protected int essaiRestantHumain;
-    protected boolean sortir;
+    protected int choix;
     protected String nbReponse;
     protected String[] tabReponse;
     protected String JoueurNbMystere;
@@ -33,6 +35,8 @@ public abstract class Game {
     protected boolean devMode;
     protected boolean actifOrdi;
     protected boolean actifHumain;
+    protected boolean bonChoix;
+    protected boolean sortir;
 
     public boolean isDevMode() {
         return devMode;
@@ -320,5 +324,41 @@ public abstract class Game {
          * Parametrage Premiere proposition de l'ordi en fonction du nb du joueur
          */
         setPremierePropositionTab(new String[getNbChiffreJoueur()]);
+    }
+
+
+    /**
+     * DevMode
+     */
+    public void devMode() {
+        LOGGER.info("Avant de commencer souhaites-tu activer le mode developpeur?");
+        System.out.println("1 - Oui");
+        System.out.println("2 - Non");
+        System.out.println("Pour quitter le jeu immediatement entre 3");
+        do {
+            try {
+                bonChoix = true;
+                LOGGER.debug(choix = entree.nextInt());
+            } catch (InputMismatchException e) {
+                entree.next();
+                LOGGER.error("Vous ne devez saisir que des chiffres");
+                bonChoix = false;
+            }
+            if (choix > 3 || choix < 1) {
+                LOGGER.error("Votre réponse est incorrecte");
+                LOGGER.error("Veuillez à nouveau rentrer votre choix");
+                bonChoix = false;
+            }
+        } while (!bonChoix);
+
+        if (choix == 1) {
+            setDevMode(true);
+        }
+        if (choix == 2) {
+            setDevMode(false);
+        }
+        if (choix == 3) {
+            System.out.println("A bientôt !");
+        }
     }
 }
