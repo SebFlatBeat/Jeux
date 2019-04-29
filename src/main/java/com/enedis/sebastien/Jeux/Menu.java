@@ -46,8 +46,6 @@ public class Menu extends Game {
         } else if (choix == 2) {
             mastermindMenu();
         } else if (choix == 3) {
-            devMode();
-        } else if (choix == 4) {
             System.out.println("A bientôt !!");
         }
     }
