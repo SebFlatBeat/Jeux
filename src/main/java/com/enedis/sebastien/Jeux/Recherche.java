@@ -221,6 +221,7 @@ public class Recherche extends Game {
         /**
          * Parametres
          */
+        recherche = true;
         super.defenseMode();
         String nextProposition = ("");
         int proposition = 0;
@@ -448,6 +449,7 @@ public class Recherche extends Game {
         /**
          * Paramètres
          */
+        recherche = true;
         super.duelMode();
         String nextProposition = ("");
         int proposition = 0;
@@ -648,9 +650,10 @@ public class Recherche extends Game {
             while (actifHumain) {
                 nombreEssaisHumain = nombreEssaisHumain + 1;
                 System.out.println("Pour information la combinaision de l'ordinateur est de " + getNbChiffreCpu() + " chiffres !");
-                if (devMode = true) {
+                if (this.devMode) {
                     System.out.println("Mode developpeur activé");
                     System.out.println("Voici la combinaison de l'ordinateur : " +getCpuNbMystere() );
+                    System.out.println("Voici ta combinaison saisi : " +getJoueurNbMystere());
                 }
                 LOGGER.info("Saisi ta proposition :");
                 nbReponse = entree.next();

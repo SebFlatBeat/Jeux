@@ -247,7 +247,8 @@ public class Mastermind extends Game{
 
 
     @Override
-    public void defenseMode() throws IOException { ;
+    public void defenseMode() throws IOException {
+        mastermind = true;
         super.defenseMode();
         String nextProposition = ("");
         String [] testTab = nextProposition.split("(?<=.)");
@@ -498,6 +499,7 @@ public class Mastermind extends Game{
         /**
          * Paramètres
          */
+        mastermind = true;
         super.duelMode();
         String nextProposition = ("");
         String [] testTab = nextProposition.split("(?<=.)");
@@ -729,9 +731,10 @@ public class Mastermind extends Game{
             while (actifHumain) {
                 nombreEssaisHumain = nombreEssaisHumain + 1;
                 System.out.println("Pour information la combinaision de l'ordinateur est de " + getNbChiffreCpu() + " chiffres !");
-                if (devMode = true) {
+                if (this.devMode) {
                     LOGGER.info("Mode developpeur activé");
                     System.out.println("Voici la combinaison de l'ordinateur : " +getCpuNbMystere() );
+                    System.out.println("Voici ta combinaison saisi : " +getJoueurNbMystere());
                 }
                 LOGGER.info("Saisi ta proposition :");
                 nbReponse = entree.next();
