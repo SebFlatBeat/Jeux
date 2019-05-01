@@ -1,9 +1,12 @@
 package com.enedis.sebastien.Jeux;
+
+import com.enedis.sebastien.Config.GetPropertyValues;
 import org.apache.commons.text.RandomStringGenerator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.InputMismatchException;
+import java.io.IOException;
+import java.util.Random;
 import java.util.Scanner;
 
 
@@ -21,7 +24,8 @@ public abstract class Game {
     protected int nombreEssaisHumain;
     protected int essaiRestantOrdi;
     protected int essaiRestantHumain;
-    protected int choix;
+    protected int longueurCombinaison;
+    protected String randomNumber;
     protected String nbReponse;
     protected String[] tabReponse;
     protected String JoueurNbMystere;
@@ -32,11 +36,21 @@ public abstract class Game {
     protected String[] premierePropositionTab;
     protected String indice;
     protected String nextProposition;
-    protected boolean devMode;
+    protected String collecteRandomNumber;
+    protected static boolean devMode;
     protected boolean actifOrdi;
     protected boolean actifHumain;
-    protected boolean bonChoix;
     protected boolean sortir;
+    protected boolean recherche;
+    protected boolean mastermind;
+
+    public void setLongueurCombinaison(int longueurCombinaison) {
+        this.longueurCombinaison = longueurCombinaison;
+    }
+
+    public int getLongueurCombinaison() {
+        return longueurCombinaison;
+    }
 
     public boolean isDevMode() {
         return devMode;
@@ -80,17 +94,20 @@ public abstract class Game {
 
 
     protected RandomStringGenerator generator = new RandomStringGenerator.Builder()
-            .withinRange('0', '9').build();
+            .withinRange('0','9').build();
+
+    Random random = new Random();
+    protected int generatorMastermind;
+
+
 
     public String getRandomNumber() {
         return randomNumber;
     }
 
-    public void setRandomNumber(String randomNumber) {
-        this.randomNumber = randomNumber;
+    public void setGenerator(RandomStringGenerator generator) {
+        this.generator = generator;
     }
-
-    protected String randomNumber = generator.generate(4, 10);
 
     public String getNextProposition() {
         return nextProposition;
@@ -213,15 +230,26 @@ public abstract class Game {
     }
 
 
-    protected void challengerMode() {
+    protected void challengerMode() throws IOException {
         /**
          * parametrages
          */
-
-        setNbMaxEssais(10);
+        GetPropertyValues properties = new GetPropertyValues();
+        setNbMaxEssais(Integer.parseInt(properties.getPropValues("nbMaxEssais")));
+        setNombreEssais(Integer.parseInt(properties.getPropValues2("nombreEssais")));
+        setLongueurCombinaison(Integer.parseInt(properties.getPropValues3("longueurCombinaison")));
         setNbChiffreCpu(0);
-        setNombreEssais(1);
         setEssaiRestant(getNbMaxEssais());
+        randomNumber = "";
+        if (recherche){
+        randomNumber = generator.generate(longueurCombinaison);}
+        else if (mastermind){
+            while (randomNumber.length()!=longueurCombinaison){
+                generatorMastermind = (Integer.parseInt(properties.getPropValues5("chiffreMinUtilisable")) + random.nextInt((Integer.parseInt(properties.getPropValues6("chiffreMaxUtilisable"))-(Integer.parseInt(properties.getPropValues5("chiffreMinUtilisable"))))));
+                collecteRandomNumber = String.valueOf(generatorMastermind);
+                randomNumber = randomNumber + collecteRandomNumber;
+            }
+        }
         setCpuNbMystere(randomNumber);
         setCpuTabMystere(CpuNbMystere.split("(?<=.)"));
         /**
@@ -232,24 +260,25 @@ public abstract class Game {
         }
     }
 
-    protected void defenseMode() {
+    protected void defenseMode() throws IOException {
         /**
-         * parametrages
+         * parametrages6
          */
-
-        setNbMaxEssais(10);
+        GetPropertyValues properties = new GetPropertyValues();
+        setNbMaxEssais(Integer.parseInt(properties.getPropValues("nbMaxEssais")));
+        setNombreEssais(Integer.parseInt(properties.getPropValues2("nombreEssais")));
+        setLongueurCombinaison(Integer.parseInt(properties.getPropValues3("longueurCombinaison")));
         setNbChiffreJoueur(0);
-        setNombreEssais(1);
         setEssaiRestant(getNbMaxEssais());
         setPremiereProposition("");
         do {
-            LOGGER.info("Tu peux entrer une combinaision de 4 à 10 chiffres");
+            LOGGER.info("Entre une combinaision de "+ getLongueurCombinaison()+ " chiffres");
             LOGGER.info("Entre ta combinaison secrète : ");
             setJoueurNbMystere(entree.next());
             LOGGER.info(JoueurNbMystere);
             while (getJoueurNbMystere().matches("^[a-zA-Z]*$")) {
-                LOGGER.error("Tu ne dois mettre que des chiffres");
-                LOGGER.info("Tu peux entrer une combinaision de 4 à 10 chiffres");
+                LOGGER.error("Tu ne dois mettre que des chiffres ");
+                LOGGER.info("Entre une combinaision de "+ getLongueurCombinaison()+ "chiffres");
                 setJoueurNbMystere(entree.next());
                 LOGGER.info(JoueurNbMystere);
             }
@@ -260,32 +289,46 @@ public abstract class Game {
             for (int i = 0; i < JoueurTabMystere.length; i++) {
                 nbChiffreJoueur++;
             }
-            if (nbChiffreJoueur < 4 || nbChiffreJoueur > 10) {
-                LOGGER.error("Tu dois entrer une combinaision de 4 à 10 chiffres");
+            if (nbChiffreJoueur != getLongueurCombinaison()) {
+                LOGGER.error("Tu dois entrer une combinaision de "+ getLongueurCombinaison()+ " chiffres");
                 sortir = false;
+                nbChiffreJoueur = 0;
             } else {
                 sortir = true;
             }
         } while (!sortir);
         setPremierePropositionTab(new String[getNbChiffreJoueur()]);
-
     }
 
-    protected void duelMode() {
+    protected void duelMode() throws IOException {
         /**
          * parametrages
          */
-        setNbMaxEssais(10);
+        GetPropertyValues properties = new GetPropertyValues();
+        setNbMaxEssais(Integer.parseInt(properties.getPropValues("nbMaxEssais")));
+        setNombreEssais(Integer.parseInt(properties.getPropValues2("nombreEssais")));
+        setLongueurCombinaison(Integer.parseInt(properties.getPropValues3("longueurCombinaison")));
         setNbChiffreCpu(0);
         setNbChiffreJoueur(0);
         setPremiereProposition("");
         setEssaiRestantHumain(getNbMaxEssais());
         setEssaiRestantOrdi(getNbMaxEssais());
 
+
         /**
          * CPU
          */
         System.out.println("L'ordinateur saisi son nombre mystere");
+        randomNumber = "";
+        if (recherche){
+            randomNumber = generator.generate(longueurCombinaison);}
+        else if (mastermind){
+            while (randomNumber.length()!=longueurCombinaison){
+                generatorMastermind = (Integer.parseInt(properties.getPropValues5("chiffreMinUtilisable")) + random.nextInt((Integer.parseInt(properties.getPropValues6("chiffreMaxUtilisable"))-(Integer.parseInt(properties.getPropValues5("chiffreMinUtilisable"))))));
+                collecteRandomNumber = String.valueOf(generatorMastermind);
+                randomNumber = randomNumber + collecteRandomNumber;
+            }
+        }
         setCpuNbMystere(randomNumber);
         setCpuTabMystere(CpuNbMystere.split("(?<=.)"));
         for (int i = 0; i < CpuTabMystere.length; i++) {
@@ -296,69 +339,31 @@ public abstract class Game {
          * player
          */
         do {
-            LOGGER.info("Tu peux entrer une combinaision de 4 à 10 chiffres");
+            LOGGER.info("Entre une combinaision de "+ getLongueurCombinaison()+ " chiffres");
             LOGGER.info("Entre ta combinaison secrète : ");
             setJoueurNbMystere(entree.next());
             LOGGER.info(JoueurNbMystere);
             while (getJoueurNbMystere().matches("^[a-zA-Z]*$")) {
-                LOGGER.error("Tu ne dois mettre que des chiffres");
-                LOGGER.info("Tu peux entrer une combinaision de 4 à 10 chiffres");
+                LOGGER.error("Tu ne dois mettre que des chiffres ");
+                LOGGER.info("Entre une combinaision de "+ getLongueurCombinaison()+ "chiffres");
                 setJoueurNbMystere(entree.next());
                 LOGGER.info(JoueurNbMystere);
             }
-            JoueurTabMystere = JoueurNbMystere.split("(?<=.)");
+            setJoueurTabMystere(JoueurNbMystere.split("(?<=.)"));
             /**
              * Décompte de nbChiffre pour donner un indice au joueur
              */
             for (int i = 0; i < JoueurTabMystere.length; i++) {
                 nbChiffreJoueur++;
             }
-            if (nbChiffreJoueur < 4 || nbChiffreJoueur > 10) {
-                LOGGER.error("Vous devez entrer une combinaision de 4 à 10 chiffres");
+            if (nbChiffreJoueur != getLongueurCombinaison()) {
+                LOGGER.error("Tu dois entrer une combinaision de "+ getLongueurCombinaison()+ " chiffres");
                 sortir = false;
+                nbChiffreJoueur = 0;
             } else {
                 sortir = true;
             }
         } while (!sortir);
-        /**
-         * Parametrage Premiere proposition de l'ordi en fonction du nb du joueur
-         */
         setPremierePropositionTab(new String[getNbChiffreJoueur()]);
-    }
-
-
-    /**
-     * DevMode
-     */
-    public void devMode() {
-        LOGGER.info("Avant de commencer souhaites-tu activer le mode developpeur?");
-        System.out.println("1 - Oui");
-        System.out.println("2 - Non");
-        System.out.println("Pour quitter le jeu immediatement entre 3");
-        do {
-            try {
-                bonChoix = true;
-                LOGGER.debug(choix = entree.nextInt());
-            } catch (InputMismatchException e) {
-                entree.next();
-                LOGGER.error("Vous ne devez saisir que des chiffres");
-                bonChoix = false;
-            }
-            if (choix > 3 || choix < 1) {
-                LOGGER.error("Votre réponse est incorrecte");
-                LOGGER.error("Veuillez à nouveau rentrer votre choix");
-                bonChoix = false;
-            }
-        } while (!bonChoix);
-
-        if (choix == 1) {
-            setDevMode(true);
-        }
-        if (choix == 2) {
-            setDevMode(false);
-        }
-        if (choix == 3) {
-            System.out.println("A bientôt !");
-        }
     }
 }

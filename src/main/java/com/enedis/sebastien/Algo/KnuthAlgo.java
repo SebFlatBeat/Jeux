@@ -8,6 +8,7 @@ public class KnuthAlgo {
 
     private static final Random rand = new Random();
 
+
     public static <T> Knuth.Fonction<T, List<T>> setOfN(final int n) {
         return new Knuth.Fonction<T, List<T>>() {
             private List<T> tentative = new ArrayList<T>(n);
@@ -22,5 +23,7 @@ public class KnuthAlgo {
                 return tentative;
             }
         };
+
     }
+
 }

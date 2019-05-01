@@ -1,6 +1,9 @@
 package com.enedis.sebastien.Jeux;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -15,7 +18,7 @@ public class Menu extends Game {
     /**
      * Premier Menu
      */
-    public void firstMenu() {
+    public void firstMenu() throws IOException {
         System.out.println("Bienvenu dans notre petit espace de jeu !");
         System.out.println(" ");
         System.out.println("Ici, tu as le choix entre deux jeux");
@@ -53,7 +56,7 @@ public class Menu extends Game {
     /**
      * Menu Rechercher +/-
      */
-    public void rechercheMenu() {
+    public void rechercheMenu() throws IOException {
         Recherche recherche = new Recherche();
         LOGGER.info(" Tu as choisi le jeu recherche +/-");
         System.out.println(" ");
@@ -94,7 +97,7 @@ public class Menu extends Game {
     /**
      * Menu Mastermind
      */
-    public void mastermindMenu() {
+    public void mastermindMenu() throws IOException {
         Mastermind mastermind = new Mastermind();
         LOGGER.info(" Tu as choisi le jeu MasterMind");
         System.out.println(" ");

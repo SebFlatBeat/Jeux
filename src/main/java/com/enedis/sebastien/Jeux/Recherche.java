@@ -1,6 +1,8 @@
 package com.enedis.sebastien.Jeux;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.Random;
@@ -13,9 +15,13 @@ public class Recherche extends Game {
     static Scanner entree = new Scanner(System.in);
     boolean bonChoix;
 
+
     @Override
-    public void challengerMode() {
-        devMode();
+    public void challengerMode() throws IOException {
+        /**
+         * parametres
+         */
+        recherche = true;
         super.challengerMode();
         int choixJoueur = 0;
         System.out.println("Bienvenue sur le jeu : Recherche +/-");
@@ -211,12 +217,10 @@ public class Recherche extends Game {
 
 
     @Override
-    public void defenseMode() {
+    public void defenseMode() throws IOException {
         /**
          * Parametres
          */
-
-        devMode();
         super.defenseMode();
         String nextProposition = ("");
         int proposition = 0;
@@ -440,11 +444,10 @@ public class Recherche extends Game {
 
 
     @Override
-    protected void duelMode() {
+    protected void duelMode() throws IOException {
         /**
          * Paramètres
          */
-        devMode();
         super.duelMode();
         String nextProposition = ("");
         int proposition = 0;

@@ -5,7 +5,11 @@ import com.enedis.sebastien.Algo.KnuthAlgo;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.*;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.InputMismatchException;
+import java.util.List;
+import java.util.Scanner;
 
 public class Mastermind extends Game{
 
@@ -15,8 +19,8 @@ public class Mastermind extends Game{
     boolean bonChoix;
 
     @Override
-    public void challengerMode() {
-        devMode();
+    public void challengerMode() throws IOException {
+        mastermind = true;
         super.challengerMode();
         /**
          * Parametres supplementaires
@@ -243,8 +247,7 @@ public class Mastermind extends Game{
 
 
     @Override
-    public void defenseMode() {
-        devMode();
+    public void defenseMode() throws IOException { ;
         super.defenseMode();
         String nextProposition = ("");
         String [] testTab = nextProposition.split("(?<=.)");
@@ -491,11 +494,10 @@ public class Mastermind extends Game{
     }
 
     @Override
-    public void duelMode(){
+    public void duelMode() throws IOException {
         /**
          * Paramètres
          */
-        devMode();
         super.duelMode();
         String nextProposition = ("");
         String [] testTab = nextProposition.split("(?<=.)");

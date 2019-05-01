@@ -1,22 +1,26 @@
 package com.enedis.sebastien;
 
-import com.enedis.sebastien.Config.ReadConfigMain;
+import com.enedis.sebastien.Jeux.Game;
 import com.enedis.sebastien.Jeux.Menu;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class Main {
+import java.io.IOException;
+
+public class Main extends Game {
 
         private static final Logger LOGGER = LogManager.getLogger();
 
-        public static void main(String[] args) {
+        public static void main(String[] args) throws IOException {
             LOGGER.info("Démarrage de l'application");
 
-            ReadConfigMain readConfigMain = new ReadConfigMain();
+
+            if(args.length>0 && args[0].equals("enableDevMode")){
+                devMode = true;
+            }
 
              Menu menu = new Menu();
              menu.firstMenu();
 
         }
-
-    }
+}
