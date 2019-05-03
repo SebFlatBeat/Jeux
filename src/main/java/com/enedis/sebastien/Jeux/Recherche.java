@@ -34,8 +34,15 @@ public class Recherche extends Game {
             System.out.println("Mode developpeur activé");
             System.out.println("Voici la combinaison de l'ordinateur : " +getCpuNbMystere() );
         }
+
         LOGGER.info("Entre ta proposition : ");
         nbReponse = entree.next();
+        while (nbReponse.matches("^[a-zA-Z]*$")) {
+            LOGGER.error("Tu ne dois mettre que des chiffres ");
+            LOGGER.info("Entre une combinaision de " + getLongueurCombinaison() + " chiffres");
+            setJoueurNbMystere(entree.next());
+            LOGGER.info(JoueurNbMystere);
+        }
         LOGGER.info(nbReponse);
         tabReponse = nbReponse.split("(?<=.)");
 
@@ -46,6 +53,12 @@ public class Recherche extends Game {
             LOGGER.error("Ta réponse ne fait pas la meme taille que la combinaison secrète !!");
             LOGGER.error("Entre une reponse qui fait la taille de " + nbChiffreCpu + " chiffre(s)");
             nbReponse = entree.next();
+            while (nbReponse.matches("^[a-zA-Z]*$")) {
+                LOGGER.error("Tu ne dois mettre que des chiffres ");
+                LOGGER.info("Entre une combinaision de " + getLongueurCombinaison() + " chiffres");
+                nbReponse = entree.next();
+                LOGGER.info(JoueurNbMystere);
+            }
             LOGGER.info(nbReponse);
             tabReponse = nbReponse.split("(?<=.)");
         }
@@ -71,6 +84,12 @@ public class Recherche extends Game {
             System.out.println("Il te reste " + essaiRestant + " essais !");
             LOGGER.info("Entre une nouvelle proposition : ");
             nbReponse = entree.next();
+            while (nbReponse.matches("^[a-zA-Z]*$")) {
+                LOGGER.error("Tu ne dois mettre que des chiffres ");
+                LOGGER.info("Entre une combinaision de " + getLongueurCombinaison() + " chiffres");
+                nbReponse = entree.next();
+                LOGGER.info(JoueurNbMystere);
+            }
             LOGGER.info(nbReponse);
             tabReponse = nbReponse.split("(?<=.)");
             /**
@@ -80,6 +99,12 @@ public class Recherche extends Game {
                 LOGGER.error("Ta réponse ne fait pas la meme taille que la combinaison secrète !!");
                 System.out.println("Entre une reponse qui fait la taille de " + nbChiffreCpu + " chiffres");
                 nbReponse = entree.next();
+                while (nbReponse.matches("^[a-zA-Z]*$")) {
+                    LOGGER.error("Tu ne dois mettre que des chiffres ");
+                    LOGGER.info("Entre une combinaision de " + getLongueurCombinaison() + " chiffres");
+                    nbReponse = entree.next();
+                    LOGGER.info(JoueurNbMystere);
+                }
                 LOGGER.info(nbReponse);
                 tabReponse = nbReponse.split("(?<=.)");
             }
@@ -262,25 +287,14 @@ public class Recherche extends Game {
                     predictionProposition = tabReponse[i];
                 } else if (valeur > 0) {
                     compare[i] = "+";
+                    nombre++;
+                    predictionProposition = String.valueOf(nombre);
                 } else if (valeur < 0) {
                     compare[i] = "-";
+                    nombre--;
+                    predictionProposition = String.valueOf(nombre);
                 }
-                /**
-                 Condition de prediction de proposition avec utilisation d'un random
-                 */
-                if (predictionProposition != tabReponse[i] && nombre >= 5 && valeur > 0) {
-                    proposition = new Random().nextInt(9 - nombre + 1) + nombre;
-                    predictionProposition = String.valueOf(proposition);
-                } else if (predictionProposition != tabReponse[i] && nombre < 5 && valeur < 0) {
-                    proposition = new Random().nextInt(0 + nombre) + 0;
-                    predictionProposition = String.valueOf(proposition);
-                } else if (predictionProposition != tabReponse[i] && nombre >= 5 && valeur < 0) {
-                    proposition = new Random().nextInt(0 + nombre) + 0;
-                    predictionProposition = String.valueOf(proposition);
-                } else if (predictionProposition != tabReponse[i] && nombre < 5 && valeur > 0) {
-                    proposition = new Random().nextInt(9 - nombre + 1) + nombre;
-                    predictionProposition = String.valueOf(proposition);
-                }
+
                 indice = getIndice() + compare[i];
                 nextProposition = nextProposition + predictionProposition;
             }
@@ -514,25 +528,14 @@ public class Recherche extends Game {
                             predictionProposition = tabReponse[i];
                         } else if (valeur > 0) {
                             compare[i] = "+";
+                            nombre++;
+                            predictionProposition = String.valueOf(nombre);
                         } else if (valeur < 0) {
                             compare[i] = "-";
+                            nombre--;
+                            predictionProposition = String.valueOf(nombre);
                         }
-                        /**
-                         Condition de prediction de proposition avec utilisation d'un random
-                         */
-                        if (predictionProposition != tabReponse[i] && nombre >= 5 && valeur > 0) {
-                            proposition = new Random().nextInt(9 - nombre + 1) + nombre;
-                            predictionProposition = String.valueOf(proposition);
-                        } else if (predictionProposition != tabReponse[i] && nombre < 5 && valeur < 0) {
-                            proposition = new Random().nextInt(0 + nombre) + 0;
-                            predictionProposition = String.valueOf(proposition);
-                        } else if (predictionProposition != tabReponse[i] && nombre >= 5 && valeur < 0) {
-                            proposition = new Random().nextInt(0 + nombre) + 0;
-                            predictionProposition = String.valueOf(proposition);
-                        } else if (predictionProposition != tabReponse[i] && nombre < 5 && valeur > 0) {
-                            proposition = new Random().nextInt(9 - nombre + 1) + nombre;
-                            predictionProposition = String.valueOf(proposition);
-                        }
+
                         indice = getIndice() + compare[i];
                         nextProposition = nextProposition + predictionProposition;
                     }
@@ -657,6 +660,12 @@ public class Recherche extends Game {
                 }
                 LOGGER.info("Saisi ta proposition :");
                 nbReponse = entree.next();
+                while (nbReponse.matches("^[a-zA-Z]*$")) {
+                    LOGGER.error("Tu ne dois mettre que des chiffres ");
+                    LOGGER.info("Entre une combinaision de " + getLongueurCombinaison() + " chiffres");
+                    nbReponse = entree.next();
+                    LOGGER.info(JoueurNbMystere);
+                }
                 LOGGER.info(nbReponse);
                 tabReponse = nbReponse.split("(?<=.)");
 
@@ -664,6 +673,12 @@ public class Recherche extends Game {
                     LOGGER.error("Ta réponse ne fait pas la meme taille que la combinaison secrète !!");
                     System.out.println("Entre une reponse qui fait la taille de " + nbChiffreCpu + " chiffre(s)");
                     nbReponse = entree.next();
+                    while (nbReponse.matches("^[a-zA-Z]*$")) {
+                        LOGGER.error("Tu ne dois mettre que des chiffres ");
+                        LOGGER.info("Entre une combinaision de " + getLongueurCombinaison() + " chiffres");
+                        nbReponse = entree.next();
+                        LOGGER.info(JoueurNbMystere);
+                    }
                     LOGGER.info(nbReponse);
                     tabReponse = nbReponse.split("(?<=.)");
                 }

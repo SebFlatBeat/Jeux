@@ -6,7 +6,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
-import java.util.Random;
 import java.util.Scanner;
 
 
@@ -25,6 +24,8 @@ public abstract class Game {
     protected int essaiRestantOrdi;
     protected int essaiRestantHumain;
     protected int longueurCombinaison;
+    protected int chiffreMinMastermind;
+    protected int chiffreMaxMastermind;
     protected String randomNumber;
     protected String nbReponse;
     protected String[] tabReponse;
@@ -36,13 +37,28 @@ public abstract class Game {
     protected String[] premierePropositionTab;
     protected String indice;
     protected String nextProposition;
-    protected String collecteRandomNumber;
     protected static boolean devMode;
     protected boolean actifOrdi;
     protected boolean actifHumain;
     protected boolean sortir;
     protected boolean recherche;
     protected boolean mastermind;
+
+    public int getChiffreMinMastermind() {
+        return chiffreMinMastermind;
+    }
+
+    public void setChiffreMinMastermind(int chiffreMinMastermind) {
+        this.chiffreMinMastermind = chiffreMinMastermind;
+    }
+
+    public int getChiffreMaxMastermind() {
+        return chiffreMaxMastermind;
+    }
+
+    public void setChiffreMaxMastermind(int chiffreMaxMastermind) {
+        this.chiffreMaxMastermind = chiffreMaxMastermind;
+    }
 
     public void setLongueurCombinaison(int longueurCombinaison) {
         this.longueurCombinaison = longueurCombinaison;
@@ -95,11 +111,6 @@ public abstract class Game {
 
     protected RandomStringGenerator generator = new RandomStringGenerator.Builder()
             .withinRange('0','9').build();
-
-    Random random = new Random();
-    protected int generatorMastermind;
-
-
 
     public String getRandomNumber() {
         return randomNumber;
@@ -238,18 +249,18 @@ public abstract class Game {
         setNbMaxEssais(Integer.parseInt(properties.getPropValues("nbMaxEssais")));
         setNombreEssais(Integer.parseInt(properties.getPropValues2("nombreEssais")));
         setLongueurCombinaison(Integer.parseInt(properties.getPropValues3("longueurCombinaison")));
+        setDevMode(Boolean.parseBoolean(properties.getPropValues4("devMode")));
+        setChiffreMinMastermind(Integer.parseInt(properties.getPropValues5("chiffreMinMastermind")));
+        setChiffreMaxMastermind(Integer.parseInt(properties.getPropValues6("chiffreMaxMastermind")));
         setNbChiffreCpu(0);
         setEssaiRestant(getNbMaxEssais());
         randomNumber = "";
         if (recherche){
         randomNumber = generator.generate(longueurCombinaison);}
         else if (mastermind){
-            while (randomNumber.length()!=longueurCombinaison){
-                generatorMastermind = (Integer.parseInt(properties.getPropValues5("chiffreMinUtilisable")) + random.nextInt((Integer.parseInt(properties.getPropValues6("chiffreMaxUtilisable"))-(Integer.parseInt(properties.getPropValues5("chiffreMinUtilisable"))))));
-                collecteRandomNumber = String.valueOf(generatorMastermind);
-                randomNumber = randomNumber + collecteRandomNumber;
+        randomNumber = generator.generate(chiffreMinMastermind,chiffreMaxMastermind);
             }
-        }
+
         setCpuNbMystere(randomNumber);
         setCpuTabMystere(CpuNbMystere.split("(?<=.)"));
         /**
@@ -268,36 +279,70 @@ public abstract class Game {
         setNbMaxEssais(Integer.parseInt(properties.getPropValues("nbMaxEssais")));
         setNombreEssais(Integer.parseInt(properties.getPropValues2("nombreEssais")));
         setLongueurCombinaison(Integer.parseInt(properties.getPropValues3("longueurCombinaison")));
+        setDevMode(Boolean.parseBoolean(properties.getPropValues4("devMode")));
+        setChiffreMinMastermind(Integer.parseInt(properties.getPropValues5("chiffreMinMastermind")));
+        setChiffreMaxMastermind(Integer.parseInt(properties.getPropValues6("chiffreMaxMastermind")));
         setNbChiffreJoueur(0);
         setEssaiRestant(getNbMaxEssais());
         setPremiereProposition("");
-        do {
-            LOGGER.info("Entre une combinaision de "+ getLongueurCombinaison()+ " chiffres");
-            LOGGER.info("Entre ta combinaison secrète : ");
-            setJoueurNbMystere(entree.next());
-            LOGGER.info(JoueurNbMystere);
-            while (getJoueurNbMystere().matches("^[a-zA-Z]*$")) {
-                LOGGER.error("Tu ne dois mettre que des chiffres ");
-                LOGGER.info("Entre une combinaision de "+ getLongueurCombinaison()+ "chiffres");
+        if (recherche) {
+            do {
+                LOGGER.info("Entre une combinaision de " + getLongueurCombinaison() + " chiffres");
+                LOGGER.info("Entre ta combinaison secrète : ");
                 setJoueurNbMystere(entree.next());
                 LOGGER.info(JoueurNbMystere);
-            }
-            setJoueurTabMystere(JoueurNbMystere.split("(?<=.)"));
-            /**
-             * Décompte de nbChiffre pour donner un indice au joueur
-             */
-            for (int i = 0; i < JoueurTabMystere.length; i++) {
-                nbChiffreJoueur++;
-            }
-            if (nbChiffreJoueur != getLongueurCombinaison()) {
-                LOGGER.error("Tu dois entrer une combinaision de "+ getLongueurCombinaison()+ " chiffres");
-                sortir = false;
-                nbChiffreJoueur = 0;
-            } else {
-                sortir = true;
-            }
-        } while (!sortir);
-        setPremierePropositionTab(new String[getNbChiffreJoueur()]);
+                while (getJoueurNbMystere().matches("^[a-zA-Z]*$")) {
+                    LOGGER.error("Tu ne dois mettre que des chiffres ");
+                    LOGGER.info("Entre une combinaision de " + getLongueurCombinaison() + "chiffres");
+                    setJoueurNbMystere(entree.next());
+                    LOGGER.info(JoueurNbMystere);
+                }
+                setJoueurTabMystere(JoueurNbMystere.split("(?<=.)"));
+                /**
+                 * Décompte de nbChiffre pour donner un indice au joueur
+                 */
+                for (int i = 0; i < JoueurTabMystere.length; i++) {
+                    nbChiffreJoueur++;
+                }
+                if (nbChiffreJoueur != getLongueurCombinaison()) {
+                    LOGGER.error("Tu dois entrer une combinaision de " + getLongueurCombinaison() + " chiffres");
+                    sortir = false;
+                    nbChiffreJoueur = 0;
+                } else {
+                    sortir = true;
+                }
+            } while (!sortir);
+            setPremierePropositionTab(new String[getNbChiffreJoueur()]);
+        }
+        if (mastermind) {
+            do {
+                LOGGER.info("Entre une combinaision entre " + getChiffreMinMastermind() +" et " +getChiffreMaxMastermind()+" chiffres");
+                LOGGER.info("Entre ta combinaison secrète : ");
+                setJoueurNbMystere(entree.next());
+                LOGGER.info(JoueurNbMystere);
+                while (getJoueurNbMystere().matches("^[a-zA-Z]*$")) {
+                    LOGGER.error("Tu ne dois mettre que des chiffres ");
+                    LOGGER.info("Entre une combinaision entre " + getChiffreMinMastermind() +" et " +getChiffreMaxMastermind()+" chiffres");
+                    setJoueurNbMystere(entree.next());
+                    LOGGER.info(JoueurNbMystere);
+                }
+                setJoueurTabMystere(JoueurNbMystere.split("(?<=.)"));
+                /**
+                 * Décompte de nbChiffre pour donner un indice au joueur
+                 */
+                for (int i = 0; i < JoueurTabMystere.length; i++) {
+                    nbChiffreJoueur++;
+                }
+                if (nbChiffreJoueur < getChiffreMinMastermind() || nbChiffreJoueur > getChiffreMaxMastermind()) {
+                    LOGGER.error("Tu dois entrer une combinaision entre " + getChiffreMinMastermind() +" et " +getChiffreMaxMastermind()+" chiffres");
+                    sortir = false;
+                    nbChiffreJoueur = 0;
+                } else {
+                    sortir = true;
+                }
+            } while (!sortir);
+            setPremierePropositionTab(new String[getNbChiffreJoueur()]);
+        }
     }
 
     protected void duelMode() throws IOException {
@@ -308,6 +353,9 @@ public abstract class Game {
         setNbMaxEssais(Integer.parseInt(properties.getPropValues("nbMaxEssais")));
         setNombreEssais(Integer.parseInt(properties.getPropValues2("nombreEssais")));
         setLongueurCombinaison(Integer.parseInt(properties.getPropValues3("longueurCombinaison")));
+        setDevMode(Boolean.parseBoolean(properties.getPropValues4("devMode")));
+        setChiffreMinMastermind(Integer.parseInt(properties.getPropValues5("chiffreMinMastermind")));
+        setChiffreMaxMastermind(Integer.parseInt(properties.getPropValues6("chiffreMaxMastermind")));
         setNbChiffreCpu(0);
         setNbChiffreJoueur(0);
         setPremiereProposition("");
@@ -323,12 +371,8 @@ public abstract class Game {
         if (recherche){
             randomNumber = generator.generate(longueurCombinaison);}
         else if (mastermind){
-            while (randomNumber.length()!=longueurCombinaison){
-                generatorMastermind = (Integer.parseInt(properties.getPropValues5("chiffreMinUtilisable")) + random.nextInt((Integer.parseInt(properties.getPropValues6("chiffreMaxUtilisable"))-(Integer.parseInt(properties.getPropValues5("chiffreMinUtilisable"))))));
-                collecteRandomNumber = String.valueOf(generatorMastermind);
-                randomNumber = randomNumber + collecteRandomNumber;
+                randomNumber = generator.generate(chiffreMinMastermind,chiffreMaxMastermind);
             }
-        }
         setCpuNbMystere(randomNumber);
         setCpuTabMystere(CpuNbMystere.split("(?<=.)"));
         for (int i = 0; i < CpuTabMystere.length; i++) {
@@ -338,32 +382,63 @@ public abstract class Game {
         /**
          * player
          */
-        do {
-            LOGGER.info("Entre une combinaision de "+ getLongueurCombinaison()+ " chiffres");
-            LOGGER.info("Entre ta combinaison secrète : ");
-            setJoueurNbMystere(entree.next());
-            LOGGER.info(JoueurNbMystere);
-            while (getJoueurNbMystere().matches("^[a-zA-Z]*$")) {
-                LOGGER.error("Tu ne dois mettre que des chiffres ");
-                LOGGER.info("Entre une combinaision de "+ getLongueurCombinaison()+ "chiffres");
+        if (recherche) {
+            do {
+                LOGGER.info("Entre une combinaision de " + getLongueurCombinaison() + " chiffres");
+                LOGGER.info("Entre ta combinaison secrète : ");
                 setJoueurNbMystere(entree.next());
                 LOGGER.info(JoueurNbMystere);
-            }
-            setJoueurTabMystere(JoueurNbMystere.split("(?<=.)"));
-            /**
-             * Décompte de nbChiffre pour donner un indice au joueur
-             */
-            for (int i = 0; i < JoueurTabMystere.length; i++) {
-                nbChiffreJoueur++;
-            }
-            if (nbChiffreJoueur != getLongueurCombinaison()) {
-                LOGGER.error("Tu dois entrer une combinaision de "+ getLongueurCombinaison()+ " chiffres");
-                sortir = false;
-                nbChiffreJoueur = 0;
-            } else {
-                sortir = true;
-            }
-        } while (!sortir);
-        setPremierePropositionTab(new String[getNbChiffreJoueur()]);
+                while (getJoueurNbMystere().matches("^[a-zA-Z]*$")) {
+                    LOGGER.error("Tu ne dois mettre que des chiffres ");
+                    LOGGER.info("Entre une combinaision de " + getLongueurCombinaison() + "chiffres");
+                    setJoueurNbMystere(entree.next());
+                    LOGGER.info(JoueurNbMystere);
+                }
+                setJoueurTabMystere(JoueurNbMystere.split("(?<=.)"));
+                /**
+                 * Décompte de nbChiffre pour donner un indice au joueur
+                 */
+                for (int i = 0; i < JoueurTabMystere.length; i++) {
+                    nbChiffreJoueur++;
+                }
+                if (nbChiffreJoueur != getLongueurCombinaison()) {
+                    LOGGER.error("Tu dois entrer une combinaision de " + getLongueurCombinaison() + " chiffres");
+                    sortir = false;
+                    nbChiffreJoueur = 0;
+                } else {
+                    sortir = true;
+                }
+            } while (!sortir);
+            setPremierePropositionTab(new String[getNbChiffreJoueur()]);
+        }
+        if (mastermind) {
+            do {
+                LOGGER.info("Entre une combinaision entre " + getChiffreMinMastermind() +" et " +getChiffreMaxMastermind()+" chiffres");
+                LOGGER.info("Entre ta combinaison secrète : ");
+                setJoueurNbMystere(entree.next());
+                LOGGER.info(JoueurNbMystere);
+                while (getJoueurNbMystere().matches("^[a-zA-Z]*$")) {
+                    LOGGER.error("Tu ne dois mettre que des chiffres ");
+                    LOGGER.info("Entre une combinaision entre " + getChiffreMinMastermind() +" et " +getChiffreMaxMastermind()+" chiffres");
+                    setJoueurNbMystere(entree.next());
+                    LOGGER.info(JoueurNbMystere);
+                }
+                setJoueurTabMystere(JoueurNbMystere.split("(?<=.)"));
+                /**
+                 * Décompte de nbChiffre pour donner un indice au joueur
+                 */
+                for (int i = 0; i < JoueurTabMystere.length; i++) {
+                    nbChiffreJoueur++;
+                }
+                if (nbChiffreJoueur < getChiffreMinMastermind() || nbChiffreJoueur > getChiffreMaxMastermind()) {
+                    LOGGER.error("Tu dois entrer une combinaision entre " + getChiffreMinMastermind() +" et " +getChiffreMaxMastermind()+" chiffres");
+                    sortir = false;
+                    nbChiffreJoueur = 0;
+                } else {
+                    sortir = true;
+                }
+            } while (!sortir);
+            setPremierePropositionTab(new String[getNbChiffreJoueur()]);
+        }
     }
 }

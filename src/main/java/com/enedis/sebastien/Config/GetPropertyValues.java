@@ -122,7 +122,7 @@ public class GetPropertyValues{
         }
         return result;
     }
-    public String getPropValues5(String chiffreMinUtilisable) throws IOException {
+    public String getPropValues5(String chiffreMinMastermind) throws IOException {
 
         try {
             Properties prop = new Properties();
@@ -137,17 +137,17 @@ public class GetPropertyValues{
             }
 
             Date time = new Date(System.currentTimeMillis());
-            chiffreMinUtilisable = prop.getProperty("chiffreMinUtilisable");
+            chiffreMinMastermind = prop.getProperty("chiffreMinMastermind");
 
-            result = chiffreMinUtilisable;
-            LOGGER.info("chiffreMinUtilisable "+result + "\nProgram Ran on " + time);
+            result = chiffreMinMastermind;
+            LOGGER.info("chiffreMinMastermind "+result + "\nProgram Ran on " + time);
         } catch (Exception e) {
             LOGGER.error("Exception: " + e);
         } finally {
             inputStream.close();
         }
         return result;
-    }    public String getPropValues6(String chiffreMaxUtilisable) throws IOException {
+    }    public String getPropValues6(String chiffreMaxMastermind) throws IOException {
 
         try {
             Properties prop = new Properties();
@@ -162,10 +162,10 @@ public class GetPropertyValues{
             }
 
             Date time = new Date(System.currentTimeMillis());
-            chiffreMaxUtilisable = prop.getProperty("chiffreMaxUtilisable");
+            chiffreMaxMastermind = prop.getProperty("chiffreMaxMastermind");
 
-            result = chiffreMaxUtilisable;
-            LOGGER.info("chiffreMaxUtilisable "+result + "\nProgram Ran on " + time);
+            result = chiffreMaxMastermind;
+            LOGGER.info("chiffreMaxMastermind "+result + "\nProgram Ran on " + time);
         } catch (Exception e) {
             LOGGER.error("Exception: " + e);
         } finally {

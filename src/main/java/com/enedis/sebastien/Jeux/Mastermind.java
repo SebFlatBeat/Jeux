@@ -46,6 +46,12 @@ public class Mastermind extends Game{
         LOGGER.info("Entre ta proposition : ");
         nbReponse = entree.next();
         LOGGER.info(nbReponse);
+        while (nbReponse.matches("^[a-zA-Z]*$")) {
+            LOGGER.error("Tu ne dois mettre que des chiffres ");
+            LOGGER.info("Entre une combinaision entre " + getChiffreMinMastermind() +" et " +getChiffreMaxMastermind()+" chiffres");
+            nbReponse = entree.next();
+            LOGGER.info(nbReponse);
+        }
         tabReponse = nbReponse.split("(?<=.)");
 
         /**
@@ -56,6 +62,12 @@ public class Mastermind extends Game{
             System.out.println("Entre une reponse qui fait la taille de " + nbChiffreCpu + " chiffre(s)");
             nbReponse = entree.next();
             LOGGER.info(nbReponse);
+            while (nbReponse.matches("^[a-zA-Z]*$")) {
+                LOGGER.error("Tu ne dois mettre que des chiffres ");
+                LOGGER.info("Entre une combinaision entre " + getChiffreMinMastermind() +" et " +getChiffreMaxMastermind()+" chiffres");
+                nbReponse = entree.next();
+                LOGGER.info(nbReponse);
+            }
             tabReponse = nbReponse.split("(?<=.)");
         }
         /**
@@ -92,6 +104,12 @@ public class Mastermind extends Game{
             LOGGER.info("Entre une nouvelle proposition : ");
             nbReponse = entree.next();
             LOGGER.info(nbReponse);
+            while (nbReponse.matches("^[a-zA-Z]*$")) {
+                LOGGER.error("Tu ne dois mettre que des chiffres ");
+                LOGGER.info("Entre une combinaision entre " + getChiffreMinMastermind() +" et " +getChiffreMaxMastermind()+" chiffres");
+                nbReponse = entree.next();
+                LOGGER.info(nbReponse);
+            }
             tabReponse = nbReponse.split("(?<=.)");
             /**
              * Boucle permettant de s'assurer que la saisie de l'utilisateur fasse la meme taille que la combinaison secrete
@@ -268,24 +286,41 @@ public class Mastermind extends Game{
             System.out.println("Mode developpeur activé");
             System.out.println("Voici ta combinaison saisi : " +getJoueurNbMystere() );
         }
-
+        LOGGER.info("Veuillez patienter quelques instants l'ordinateur reflechit");
+        System.out.println("Selon la longueur de votre combinaison, ca peut prendre quelques minutes");
         LOGGER.info("L'ordinateur entre sa proposition. ");
+
         /**
-         * Premiere proposition du CPU avec la valeur 1 et de la meme longueur que le nombre mystère du joueur
+         * Premiere proposition du CPU de la meme longueur que le nombre mystère du joueur
          */
-        for (int i = 0; i < getNbChiffreJoueur(); i++) {
-            getPremierePropositionTab()[i] = String.valueOf(1);
-            premiereProposition = getPremiereProposition() + getPremierePropositionTab()[i];
+        while(getJoueurTabMystere().length != testTab.length ) {
+            premiereProposition = ("");
+            String predictionProposition = "";
+            int[] newProposition = new int[getJoueurTabMystere().length];
+            for (int trial = 0; trial < getJoueurTabMystere().length; trial++) {
+                Knuth.Fonction<Integer, List<Integer>> setOfN = KnuthAlgo.setOfN(nbChiffreJoueur);
+                for (int i = 0; i < nbChiffreJoueur; i++) setOfN.appelle(i);
+                for (int s : setOfN.appelle(nbChiffreJoueur - 1)) newProposition[s]++;
+            }
+            for (int i = 0; i < newProposition.length; i++) {
+                predictionProposition = String.valueOf(newProposition[i]);
+                premiereProposition = predictionProposition + premiereProposition;
+            }
+            testTab = premiereProposition.split("(?<=.)");
         }
+        String eraseTestTab[] = {};
+        testTab = eraseTestTab;
 
         nbReponse = premiereProposition;
         LOGGER.info(nbReponse);
         tabReponse = getPremiereProposition().split("(?<=.)");
 
+
         while (!Arrays.equals(tabReponse, getJoueurTabMystere()) && getNombreEssais() < getNbMaxEssais()) {
+            nextProposition = ("");
             int nbBienPlace = 0;
             int nbMalPlace = 0;
-            String[] copy = tabReponse;
+            String[] copy = getTabReponse();
             String copyJoueurNbMystere = JoueurNbMystere;
             String[] compare = copyJoueurNbMystere.split("(?<=.)");
 
@@ -294,7 +329,6 @@ public class Mastermind extends Game{
                 if (rechercheBienPlace == 0) {
                     nbBienPlace++;
                     compare[i] = bienPlace;
-                    copy[i] = enleverNbPlace;
                 }
             }
             for (int a = 0; a < tabReponse.length; a++) {
@@ -308,23 +342,22 @@ public class Mastermind extends Game{
                 }
             }
 
-            while(getJoueurTabMystere().length != testTab.length ) {
-                nextProposition = ("");
-                int[] newProposition = new int[getJoueurTabMystere().length];
-                for (int trial = 0; trial < getJoueurTabMystere().length; trial++) {
-                    Knuth.Fonction<Integer, List<Integer>> setOfN = KnuthAlgo.setOfN(nbChiffreJoueur);
-                    for (int i = 0; i < nbChiffreJoueur; i++) setOfN.appelle(i);
-                    for (int s : setOfN.appelle(nbChiffreJoueur - 1)) newProposition[s]++;
-                }
+            for (int i = 0; i < getJoueurTabMystere().length; i++) {
+                int valeur = getJoueurTabMystere()[i].compareTo(tabReponse[i]);
+                int nombre = Integer.parseInt(tabReponse[i]);
                 String predictionProposition = "";
-                for (int i = 0; i < newProposition.length; i++) {
-                    predictionProposition = String.valueOf(newProposition[i]);
-                    nextProposition = nextProposition + predictionProposition;
+                if (valeur == 0) {
+                    predictionProposition = tabReponse[i];
+                } else if (valeur > 0) {
+                    nombre++;
+                    predictionProposition = String.valueOf(nombre);
+                } else if (valeur < 0) {
+                    nombre--;
+                    predictionProposition = String.valueOf(nombre);
                 }
-                testTab = nextProposition.split("(?<=.)");
+
+                nextProposition = nextProposition + predictionProposition;
             }
-            String eraseTestTab[] = {};
-            testTab = eraseTestTab;
             essaiRestant = essaiRestant - 1;
             System.out.println("Il a proposé : " + nbReponse + " -> Voici des indices pour l'aider : Il a " + nbBienPlace + " chiffre(s) de bien placé(s) et " + nbMalPlace + " chiffre(s) de mal placé(s)");
             System.out.println("Il lui reste " + essaiRestant + " essais !");
@@ -338,6 +371,7 @@ public class Mastermind extends Game{
          .Condition pour le dernier essai
          */
         if (nombreEssais >= getNbMaxEssais() && !Arrays.equals(tabReponse, getJoueurTabMystere())) {
+            nextProposition = ("");
             int nbBienPlace = 0;
             int nbMalPlace = 0;
             String[] copy = tabReponse;
@@ -349,7 +383,6 @@ public class Mastermind extends Game{
                 if (rechercheBienPlace == 0) {
                     nbBienPlace++;
                     compare[i] = bienPlace;
-                    copy[i] = enleverNbPlace;
                 }
             }
             for (int a = 0; a < tabReponse.length; a++) {
@@ -363,23 +396,22 @@ public class Mastermind extends Game{
                 }
             }
 
-            while(getJoueurTabMystere().length != testTab.length ) {
-                nextProposition = ("");
-                int[] newProposition = new int[getJoueurTabMystere().length];
-                for (int trial = 0; trial < getJoueurTabMystere().length; trial++) {
-                    Knuth.Fonction<Integer, List<Integer>> setOfN = KnuthAlgo.setOfN(nbChiffreJoueur);
-                    for (int i = 0; i < nbChiffreJoueur; i++) setOfN.appelle(i);
-                    for (int s : setOfN.appelle(nbChiffreJoueur - 1)) newProposition[s]++;
-                }
+            for (int i = 0; i < getJoueurTabMystere().length; i++) {
+                int valeur = getJoueurTabMystere()[i].compareTo(tabReponse[i]);
+                int nombre = Integer.parseInt(tabReponse[i]);
                 String predictionProposition = "";
-                for (int i = 0; i < newProposition.length; i++) {
-                    predictionProposition = String.valueOf(newProposition[i]);
-                    nextProposition = nextProposition + predictionProposition;
+                if (valeur == 0) {
+                    predictionProposition = tabReponse[i];
+                } else if (valeur > 0) {
+                    nombre++;
+                    predictionProposition = String.valueOf(nombre);
+                } else if (valeur < 0) {
+                    nombre--;
+                    predictionProposition = String.valueOf(nombre);
                 }
-                testTab = nextProposition.split("(?<=.)");
+
+                nextProposition = nextProposition + predictionProposition;
             }
-            String eraseTestTab[] = {};
-            testTab = eraseTestTab;
             essaiRestant = essaiRestant - 1;
             LOGGER.info("Il a proposé : " + nbReponse + " -> Voici des indices pour l'aider : Il a " + nbBienPlace + " chiffre(s) de bien placé(s) et " + nbMalPlace + " chiffre(s) de mal placé(s)");
             System.out.println("Mais il a dépassé le nombre d'essais autorisé qui était de " + getNbMaxEssais() + "  essai(s)");
@@ -739,6 +771,12 @@ public class Mastermind extends Game{
                 LOGGER.info("Saisi ta proposition :");
                 nbReponse = entree.next();
                 LOGGER.info(nbReponse);
+                while (nbReponse.matches("^[a-zA-Z]*$")) {
+                    LOGGER.error("Tu ne dois mettre que des chiffres ");
+                    LOGGER.info("Entre une combinaision entre " + getChiffreMinMastermind() +" et " +getChiffreMaxMastermind()+" chiffres");
+                    nbReponse = entree.next();
+                    LOGGER.info(nbReponse);
+                }
                 tabReponse = nbReponse.split("(?<=.)");
 
                 while (tabReponse.length != getCpuTabMystere().length) {
