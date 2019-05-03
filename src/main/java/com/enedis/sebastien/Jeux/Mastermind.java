@@ -582,13 +582,28 @@ public class Mastermind extends Game{
                  */
                 if (nombreEssaisOrdi < 1) {
                     LOGGER.info("L'ordinateur saisit sa proposition.");
-                    for (int i = 0; i < getNbChiffreJoueur(); i++) {
-                        getPremierePropositionTab()[i] = String.valueOf(5);
-                        premiereProposition = getPremiereProposition() + getPremierePropositionTab()[i];
+                    while(getJoueurTabMystere().length != testTab.length ) {
+                        premiereProposition = ("");
+                        String predictionProposition = "";
+                        int[] newProposition = new int[getJoueurTabMystere().length];
+                        for (int trial = 0; trial < getJoueurTabMystere().length; trial++) {
+                            Knuth.Fonction<Integer, List<Integer>> setOfN = KnuthAlgo.setOfN(nbChiffreJoueur);
+                            for (int i = 0; i < nbChiffreJoueur; i++) setOfN.appelle(i);
+                            for (int s : setOfN.appelle(nbChiffreJoueur - 1)) newProposition[s]++;
+                        }
+                        for (int i = 0; i < newProposition.length; i++) {
+                            predictionProposition = String.valueOf(newProposition[i]);
+                            premiereProposition = predictionProposition + premiereProposition;
+                        }
+                        testTab = premiereProposition.split("(?<=.)");
                     }
+                    String eraseTestTab[] = {};
+                    testTab = eraseTestTab;
+
                     nbReponse = premiereProposition;
                     LOGGER.info(nbReponse);
-
+                    tabReponse = getPremiereProposition().split("(?<=.)");
+                    nextProposition = ("");
                     int nbBienPlace = 0;
                     int nbMalPlace = 0;
                     String[] copy = tabReponse;
@@ -600,7 +615,6 @@ public class Mastermind extends Game{
                         if (rechercheBienPlace == 0) {
                             nbBienPlace++;
                             compare[i] = bienPlace;
-                            copy[i] = enleverNbPlace;
                         }
                     }
                     for (int a = 0; a < tabReponse.length; a++) {
@@ -614,23 +628,22 @@ public class Mastermind extends Game{
                         }
                     }
 
-                    while(getJoueurTabMystere().length != testTab.length ) {
-                        nextProposition = ("");
-                        int[] newProposition = new int[getJoueurTabMystere().length];
-                        for (int trial = 0; trial < getJoueurTabMystere().length; trial++) {
-                            Knuth.Fonction<Integer, List<Integer>> setOfN = KnuthAlgo.setOfN(nbChiffreJoueur);
-                            for (int i = 0; i < nbChiffreJoueur; i++) setOfN.appelle(i);
-                            for (int s : setOfN.appelle(nbChiffreJoueur - 1)) newProposition[s]++;
-                        }
+                    for (int i = 0; i < getJoueurTabMystere().length; i++) {
+                        int valeur = getJoueurTabMystere()[i].compareTo(tabReponse[i]);
+                        int nombre = Integer.parseInt(tabReponse[i]);
                         String predictionProposition = "";
-                        for (int i = 0; i < newProposition.length; i++) {
-                            predictionProposition = String.valueOf(newProposition[i]);
-                            nextProposition = nextProposition + predictionProposition;
+                        if (valeur == 0) {
+                            predictionProposition = tabReponse[i];
+                        } else if (valeur > 0) {
+                            nombre++;
+                            predictionProposition = String.valueOf(nombre);
+                        } else if (valeur < 0) {
+                            nombre--;
+                            predictionProposition = String.valueOf(nombre);
                         }
-                        testTab = nextProposition.split("(?<=.)");
+
+                        nextProposition = nextProposition + predictionProposition;
                     }
-                    String eraseTestTab[] = {};
-                    testTab = eraseTestTab;
                     essaiRestantOrdi = essaiRestantOrdi - 1;
                     nombreEssaisOrdi = nombreEssaisOrdi + 1;
                     System.out.println("Il a proposé : " + nbReponse + " -> Voici des indices pour l'aider : Il a " + nbBienPlace + " chiffre(s) de bien placé(s) et " + nbMalPlace + " chiffre(s) de mal placé(s)");
@@ -645,6 +658,7 @@ public class Mastermind extends Game{
                     tabReponse = nbReponse.split("(?<=.)");
                     nextProposition = "";
                     if (!Arrays.equals(tabReponse, getJoueurTabMystere()) && getNombreEssaisOrdi() < getNbMaxEssais() && actifOrdi) {
+                        nextProposition = ("");
                         int nbBienPlace = 0;
                         int nbMalPlace = 0;
                         String[] copy = tabReponse;
@@ -656,7 +670,6 @@ public class Mastermind extends Game{
                             if (rechercheBienPlace == 0) {
                                 nbBienPlace++;
                                 compare[i] = bienPlace;
-                                copy[i] = enleverNbPlace;
                             }
                         }
                         for (int a = 0; a < tabReponse.length; a++) {
@@ -670,23 +683,22 @@ public class Mastermind extends Game{
                             }
                         }
 
-                        while(getJoueurTabMystere().length != testTab.length ) {
-                            nextProposition = ("");
-                            int[] newProposition = new int[getJoueurTabMystere().length];
-                            for (int trial = 0; trial < getJoueurTabMystere().length; trial++) {
-                                Knuth.Fonction<Integer, List<Integer>> setOfN = KnuthAlgo.setOfN(nbChiffreJoueur);
-                                for (int i = 0; i < nbChiffreJoueur; i++) setOfN.appelle(i);
-                                for (int s : setOfN.appelle(nbChiffreJoueur - 1)) newProposition[s]++;
-                            }
+                        for (int i = 0; i < getJoueurTabMystere().length; i++) {
+                            int valeur = getJoueurTabMystere()[i].compareTo(tabReponse[i]);
+                            int nombre = Integer.parseInt(tabReponse[i]);
                             String predictionProposition = "";
-                            for (int i = 0; i < newProposition.length; i++) {
-                                predictionProposition = String.valueOf(newProposition[i]);
-                                nextProposition = nextProposition + predictionProposition;
+                            if (valeur == 0) {
+                                predictionProposition = tabReponse[i];
+                            } else if (valeur > 0) {
+                                nombre++;
+                                predictionProposition = String.valueOf(nombre);
+                            } else if (valeur < 0) {
+                                nombre--;
+                                predictionProposition = String.valueOf(nombre);
                             }
-                            testTab = nextProposition.split("(?<=.)");
+
+                            nextProposition = nextProposition + predictionProposition;
                         }
-                        String eraseTestTab[] = {};
-                        testTab = eraseTestTab;
                         essaiRestantOrdi = essaiRestantOrdi - 1;
                         nombreEssaisOrdi = nombreEssaisOrdi + 1;
                         System.out.println("Il a proposé : " + nbReponse + " -> Voici des indices pour l'aider : Il a " + nbBienPlace + " chiffre(s) de bien placé(s) et " + nbMalPlace + " chiffre(s) de mal placé(s)");
@@ -696,6 +708,7 @@ public class Mastermind extends Game{
                         ordinateur.setAdversaire(humain);
                     }
                     if (nombreEssaisOrdi >= getNbMaxEssais() && !Arrays.equals(tabReponse, getJoueurTabMystere()) && actifOrdi) {
+                        nextProposition = ("");
                         int nbBienPlace = 0;
                         int nbMalPlace = 0;
                         String[] copy = tabReponse;
@@ -707,7 +720,6 @@ public class Mastermind extends Game{
                             if (rechercheBienPlace == 0) {
                                 nbBienPlace++;
                                 compare[i] = bienPlace;
-                                copy[i] = enleverNbPlace;
                             }
                         }
                         for (int a = 0; a < tabReponse.length; a++) {
@@ -721,23 +733,22 @@ public class Mastermind extends Game{
                             }
                         }
 
-                        while(getJoueurTabMystere().length != testTab.length ) {
-                            nextProposition = ("");
-                            int[] newProposition = new int[getJoueurTabMystere().length];
-                            for (int trial = 0; trial < getJoueurTabMystere().length; trial++) {
-                                Knuth.Fonction<Integer, List<Integer>> setOfN = KnuthAlgo.setOfN(nbChiffreJoueur);
-                                for (int i = 0; i < nbChiffreJoueur; i++) setOfN.appelle(i);
-                                for (int s : setOfN.appelle(nbChiffreJoueur - 1)) newProposition[s]++;
-                            }
+                        for (int i = 0; i < getJoueurTabMystere().length; i++) {
+                            int valeur = getJoueurTabMystere()[i].compareTo(tabReponse[i]);
+                            int nombre = Integer.parseInt(tabReponse[i]);
                             String predictionProposition = "";
-                            for (int i = 0; i < newProposition.length; i++) {
-                                predictionProposition = String.valueOf(newProposition[i]);
-                                nextProposition = nextProposition + predictionProposition;
+                            if (valeur == 0) {
+                                predictionProposition = tabReponse[i];
+                            } else if (valeur > 0) {
+                                nombre++;
+                                predictionProposition = String.valueOf(nombre);
+                            } else if (valeur < 0) {
+                                nombre--;
+                                predictionProposition = String.valueOf(nombre);
                             }
-                            testTab = nextProposition.split("(?<=.)");
+
+                            nextProposition = nextProposition + predictionProposition;
                         }
-                        String eraseTestTab[] = {};
-                        testTab = eraseTestTab;
                         essaiRestantOrdi = essaiRestantOrdi - 1;
                         nombreEssaisOrdi = nombreEssaisOrdi + 1;
                         LOGGER.info("Il a proposé : " + nbReponse + " -> Voici des indices pour l'aider : Il a " + nbBienPlace + " chiffre(s) de bien placé(s) et " + nbMalPlace + " chiffre(s) de mal placé(s)");
