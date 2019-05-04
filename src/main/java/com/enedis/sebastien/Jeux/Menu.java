@@ -19,7 +19,7 @@ public class Menu extends Game {
      * Premier Menu
      */
     public void firstMenu() throws IOException {
-        System.out.println("Bienvenu dans notre petit espace de jeu !");
+        System.out.println("Bienvenue dans notre petit espace de jeu !");
         System.out.println(" ");
         System.out.println("Ici, tu as le choix entre deux jeux");
         System.out.println(" ");
@@ -39,7 +39,7 @@ public class Menu extends Game {
                 bonChoix = false;
             }
             if (choix > 3 || choix < 1) {
-                LOGGER.error("Votre réponse est incorrecte");
+                LOGGER.error("Votre reponse est incorrecte");
                 LOGGER.error("Veuillez à nouveau rentrer votre choix");
                 bonChoix = false;
             }
@@ -78,7 +78,7 @@ public class Menu extends Game {
                 bonChoix = false;
             }
             if (choix > 4 || choix < 1) {
-                LOGGER.error("Votre réponse est incorrecte");
+                LOGGER.error("Votre reponse est incorrecte");
                 LOGGER.error("Veuillez à nouveau rentrer votre choix");
                 bonChoix = false;
             }
@@ -107,7 +107,7 @@ public class Menu extends Game {
         LOGGER.info(" 2 - le mode Defense");
         LOGGER.info(" 3 - le mode Duel");
         System.out.println("Quel est ton choix ? 1 , 2 , 3 ");
-        System.out.println("Pour revenir au menu précedent, entre le 4 ");
+        System.out.println("Pour revenir au menu precedent, entre le 4 ");
         do {
             try {
                 bonChoix = true;
@@ -118,7 +118,7 @@ public class Menu extends Game {
                 bonChoix = false;
             }
             if (choix > 4 || choix < 1) {
-                LOGGER.error("Votre réponse est incorrecte");
+                LOGGER.error("Votre reponse est incorrecte");
                 LOGGER.error("Veuillez à nouveau rentrer votre choix");
                 bonChoix = false;
             }

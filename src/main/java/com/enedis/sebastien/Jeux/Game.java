@@ -242,9 +242,11 @@ public abstract class Game {
 
 
     protected void challengerMode() throws IOException {
+
         /**
-         * parametrages
+         * Parametrages
          */
+
         GetPropertyValues properties = new GetPropertyValues();
         setNbMaxEssais(Integer.parseInt(properties.getPropValues("nbMaxEssais")));
         setNombreEssais(Integer.parseInt(properties.getPropValues2("nombreEssais")));
@@ -263,18 +265,22 @@ public abstract class Game {
 
         setCpuNbMystere(randomNumber);
         setCpuTabMystere(CpuNbMystere.split("(?<=.)"));
+
         /**
          * Décompte de nbChiffre
          */
+
         for (int i = 0; i < CpuTabMystere.length; i++) {
             nbChiffreCpu++;
         }
     }
 
     protected void defenseMode() throws IOException {
+
         /**
-         * parametrages6
+         * Parametrages
          */
+
         GetPropertyValues properties = new GetPropertyValues();
         setNbMaxEssais(Integer.parseInt(properties.getPropValues("nbMaxEssais")));
         setNombreEssais(Integer.parseInt(properties.getPropValues2("nombreEssais")));
@@ -285,10 +291,15 @@ public abstract class Game {
         setNbChiffreJoueur(0);
         setEssaiRestant(getNbMaxEssais());
         setPremiereProposition("");
+
+        /**
+         * Conditions afin de determiner quel jeu se lance bar le bias d'un booleen
+         */
+
         if (recherche) {
             do {
                 LOGGER.info("Entre une combinaision de " + getLongueurCombinaison() + " chiffres");
-                LOGGER.info("Entre ta combinaison secrète : ");
+                LOGGER.info("Entre ta combinaison secrete : ");
                 setJoueurNbMystere(entree.next());
                 LOGGER.info(JoueurNbMystere);
                 while (getJoueurNbMystere().matches("^[a-zA-Z]*$")) {
@@ -298,9 +309,11 @@ public abstract class Game {
                     LOGGER.info(JoueurNbMystere);
                 }
                 setJoueurTabMystere(JoueurNbMystere.split("(?<=.)"));
+
                 /**
                  * Décompte de nbChiffre pour donner un indice au joueur
                  */
+
                 for (int i = 0; i < JoueurTabMystere.length; i++) {
                     nbChiffreJoueur++;
                 }
@@ -317,7 +330,7 @@ public abstract class Game {
         if (mastermind) {
             do {
                 LOGGER.info("Entre une combinaision entre " + getChiffreMinMastermind() +" et " +getChiffreMaxMastermind()+" chiffres");
-                LOGGER.info("Entre ta combinaison secrète : ");
+                LOGGER.info("Entre ta combinaison secrete : ");
                 setJoueurNbMystere(entree.next());
                 LOGGER.info(JoueurNbMystere);
                 while (getJoueurNbMystere().matches("^[a-zA-Z]*$")) {
@@ -327,9 +340,11 @@ public abstract class Game {
                     LOGGER.info(JoueurNbMystere);
                 }
                 setJoueurTabMystere(JoueurNbMystere.split("(?<=.)"));
+
                 /**
                  * Décompte de nbChiffre pour donner un indice au joueur
                  */
+
                 for (int i = 0; i < JoueurTabMystere.length; i++) {
                     nbChiffreJoueur++;
                 }
@@ -346,9 +361,11 @@ public abstract class Game {
     }
 
     protected void duelMode() throws IOException {
+
         /**
-         * parametrages
+         * Parametrages
          */
+
         GetPropertyValues properties = new GetPropertyValues();
         setNbMaxEssais(Integer.parseInt(properties.getPropValues("nbMaxEssais")));
         setNombreEssais(Integer.parseInt(properties.getPropValues2("nombreEssais")));
@@ -366,6 +383,7 @@ public abstract class Game {
         /**
          * CPU
          */
+
         System.out.println("L'ordinateur saisi son nombre mystere");
         randomNumber = "";
         if (recherche){
@@ -375,13 +393,19 @@ public abstract class Game {
             }
         setCpuNbMystere(randomNumber);
         setCpuTabMystere(CpuNbMystere.split("(?<=.)"));
+
+        /**
+         * Décompte de nbChiffre
+         */
+
         for (int i = 0; i < CpuTabMystere.length; i++) {
             nbChiffreCpu++;
         }
 
         /**
-         * player
+         * Player
          */
+
         if (recherche) {
             do {
                 LOGGER.info("Entre une combinaision de " + getLongueurCombinaison() + " chiffres");
@@ -395,9 +419,11 @@ public abstract class Game {
                     LOGGER.info(JoueurNbMystere);
                 }
                 setJoueurTabMystere(JoueurNbMystere.split("(?<=.)"));
+
                 /**
                  * Décompte de nbChiffre pour donner un indice au joueur
                  */
+
                 for (int i = 0; i < JoueurTabMystere.length; i++) {
                     nbChiffreJoueur++;
                 }
@@ -424,9 +450,11 @@ public abstract class Game {
                     LOGGER.info(JoueurNbMystere);
                 }
                 setJoueurTabMystere(JoueurNbMystere.split("(?<=.)"));
+
                 /**
                  * Décompte de nbChiffre pour donner un indice au joueur
                  */
+
                 for (int i = 0; i < JoueurTabMystere.length; i++) {
                     nbChiffreJoueur++;
                 }
