@@ -1,4 +1,4 @@
-package com.enedis.sebastien.Algo;
+package com.enedis.sebastien.algo;
 
 public interface Knuth {
     interface Fonction<S, T> {

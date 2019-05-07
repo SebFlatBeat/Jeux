@@ -1,7 +1,7 @@
-package com.enedis.sebastien.Jeux;
+package com.enedis.sebastien.jeux;
 
-import com.enedis.sebastien.Algo.Knuth;
-import com.enedis.sebastien.Algo.KnuthAlgo;
+import com.enedis.sebastien.algo.Knuth;
+import com.enedis.sebastien.algo.KnuthAlgo;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

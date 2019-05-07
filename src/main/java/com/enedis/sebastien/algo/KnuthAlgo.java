@@ -1,4 +1,4 @@
-package com.enedis.sebastien.Algo;
+package com.enedis.sebastien.algo;
 
 import java.util.ArrayList;
 import java.util.List;

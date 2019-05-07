@@ -1,7 +1,7 @@
 package com.enedis.sebastien;
 
-import com.enedis.sebastien.Jeux.Game;
-import com.enedis.sebastien.Jeux.Menu;
+import com.enedis.sebastien.jeux.Game;
+import com.enedis.sebastien.jeux.Menu;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -24,3 +24,4 @@ public class Main extends Game {
 
         }
 }
+

@@ -1,6 +1,6 @@
-package com.enedis.sebastien.Jeux;
+package com.enedis.sebastien.jeux;
 
-import com.enedis.sebastien.Config.GetPropertyValues;
+import com.enedis.sebastien.config.GetPropertyValues;
 import org.apache.commons.text.RandomStringGenerator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -72,8 +72,11 @@ public abstract class Game {
         return devMode;
     }
 
-    public void setDevMode(boolean devMode) {
-        this.devMode = devMode;
+     public void setDevMode(boolean devMode) {
+
+        if(this.devMode == false) {
+            this.devMode = devMode;
+        }
     }
 
     public int getNombreEssaisOrdi() {

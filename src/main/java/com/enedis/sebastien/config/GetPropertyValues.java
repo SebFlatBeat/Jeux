@@ -1,6 +1,6 @@
-package com.enedis.sebastien.Config;
+package com.enedis.sebastien.config;
 
-import com.enedis.sebastien.Jeux.Mastermind;
+import com.enedis.sebastien.jeux.Mastermind;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
