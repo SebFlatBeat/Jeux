@@ -73,7 +73,6 @@ public abstract class Game {
     }
 
      public void setDevMode(boolean devMode) {
-
         if(this.devMode == false) {
             this.devMode = devMode;
         }
@@ -102,7 +101,7 @@ public abstract class Game {
     public void setEssaiRestantOrdi(int essaiRestantOrdi) {
         this.essaiRestantOrdi = essaiRestantOrdi;
     }
-
+  
     public int getEssaiRestantHumain() {
         return essaiRestantHumain;
     }
