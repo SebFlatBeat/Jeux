@@ -1,19 +1,25 @@
-			*** JEUX ***
+							*** JEUX ***
 
-SÈbastien DarrÈ
+Copyright : S√©bastien Darr√©
 
-…tat du projet : TerminÈ
+√âtat du projet : Termin√©
 
-C'est une application proposant de jouer ‡ deux jeux :
+Cloner le repository
+
+Ensuite telecharger le fichier "Jeux.jar".
+Lancer votre console de commande windows, √©crivez " java -jar ", en laisant un espace apr√®s jar, faites glisser dans la console windows le fichier Jeux.jar.
+Appuyer sur entr√©e et l'application se lance
+
+C'est une application proposant de jouer √† deux jeux :
 
 		- Recheche +/-
 		- Mastermind
 
-Vous pouvez jouer ‡ ces deux jeux selon trois modes :
+Vous pouvez jouer √† ces deux jeux selon trois modes :
 
-		- Le mode Challenger, o˘ vous devez trouver la combinaison de l'ordinateur
-		- Le mode DÈfenseur, l'ordinateur essayer de trouver votre combinaison
-		- Le mode Duel, vous jouez tour ‡ tout avec l'ordinateur. Le premier ‡ trouver la combinaison de l'autre ‡ gagner
+		- Le mode Challenger, o√π vous devez trouver la combinaison de l'ordinateur
+		- Le mode D√©fenseur, l'ordinateur essayer de trouver votre combinaison
+		- Le mode Duel, vous jouez tour √† tout avec l'ordinateur. Le premier √† trouver la combinaison de l'autre √† gagner
 
 Pour les utilisateurs avertis, il possible d'acceder au mode developpeur en lancant le JAR avec l'argument enableDevMode.
 
