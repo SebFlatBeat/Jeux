@@ -11,7 +11,7 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
-public class Mastermind extends Game{
+public class Mastermind extends Game {
 
     private static final Logger LOGGER = LogManager.getLogger(Mastermind.class.getName());
 
@@ -823,9 +823,9 @@ public class Mastermind extends Game{
                             }
                         }
                     }
-                    essaiRestant = essaiRestant - 1;
+                    essaiRestantHumain = essaiRestantHumain - 1;
                     System.out.println("Tu as proposé : " + nbReponse + " -> Voici des indices pour t'aider : Tu as " + nbBienPlace + " chiffre(s) de bien placé(s) et " + nbMalPlace + " chiffre(s) de mal placé(s)");
-                    System.out.println("Il te reste " + essaiRestant + " essais !");
+                    System.out.println("Il te reste " + essaiRestantHumain + " essais !");
                     actifOrdi = true;
                     actifHumain = false;
                     humain.setAdversaire(ordinateur);
@@ -856,7 +856,7 @@ public class Mastermind extends Game{
                             }
                         }
                     }
-                    essaiRestant = essaiRestant - 1;
+                    essaiRestantHumain = essaiRestantHumain - 1;
                     LOGGER.info("Tu as proposé : " + nbReponse + " -> Voici des indices pour t'aider : Tu as " + nbBienPlace + " chiffre(s) de bien placé(s) et " + nbMalPlace + " chiffre(s) de mal placé(s)");
                     System.out.println("Seulement tu as dépassé le nombre d'essais autorisé qui était de " + getNbMaxEssais() + "  essai(s)");
                     System.out.println("Voici la solution : " + getCpuNbMystere());
@@ -898,7 +898,7 @@ public class Mastermind extends Game{
             Recherche recherche = new Recherche();
             recherche.duelMode();
         } else if (choixJoueur == 2) {
-            LOGGER.info("Souhaites-tu revenir au menu du jeu Recherche +/- ?");
+            LOGGER.info("Souhaites-tu revenir au menu du jeu Mastermind?");
             System.out.println("1 - Oui");
             System.out.println("2 - Non");
             do {
@@ -938,14 +938,14 @@ public class Mastermind extends Game{
                     }
                 } while (!bonChoix);
                 if (choixJoueur == 1) {
-                    Recherche recherche = new Recherche();
-                    recherche.challengerMode();
+                    Mastermind mastermind = new Mastermind();
+                    mastermind.challengerMode();
                 } else if (choixJoueur == 2) {
-                    Recherche recherche = new Recherche();
-                    recherche.defenseMode();
+                    Mastermind mastermind = new Mastermind();
+                    mastermind.defenseMode();
                 } else if (choixJoueur == 3) {
-                    Recherche recherche = new Recherche();
-                    recherche.duelMode();
+                    Mastermind mastermind = new Mastermind();
+                    mastermind.duelMode();
                 } else if (choixJoueur == 4) {
                     Menu menu = new Menu();
                     menu.firstMenu();

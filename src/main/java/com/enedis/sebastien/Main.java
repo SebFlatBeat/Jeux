@@ -1,13 +1,12 @@
 package com.enedis.sebastien;
 
-import com.enedis.sebastien.jeux.Game;
 import com.enedis.sebastien.jeux.Menu;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 
-public class Main extends Game {
+public class Main extends Menu {
 
         private static final Logger LOGGER = LogManager.getLogger();
 
