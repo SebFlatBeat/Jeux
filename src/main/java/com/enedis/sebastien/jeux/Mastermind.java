@@ -895,8 +895,8 @@ public class Mastermind extends Game {
             }
         } while (!bonChoix);
         if (choixJoueur == 1) {
-            Recherche recherche = new Recherche();
-            recherche.duelMode();
+            Mastermind mastermind = new Mastermind();
+            mastermind.duelMode();
         } else if (choixJoueur == 2) {
             LOGGER.info("Souhaites-tu revenir au menu du jeu Mastermind?");
             System.out.println("1 - Oui");
